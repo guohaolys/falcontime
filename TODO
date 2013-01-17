@@ -1,0 +1,21 @@
+Version 1 requirements:
+
+Daemon Application
+- Configuration Options
+- Windows PerformanceCounter
+- Linux Nanosecond counter?
+- TCP Data Server
+- UDP Quick Response Thread (client thread and server thread)
+
+Client Library
+- C API
+
+
+Future:
+-Client C++ API
+-Client Python API
+-Client Integrate Boost/C++ API
+-Client simulated time (multiplier added on to realtime)
+-Daemon support simulated time groups
+-Support PTP for communication protocol
+
