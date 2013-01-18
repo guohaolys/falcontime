@@ -1,0 +1,12 @@
+*.exe
+*.lib
+*.obj
+*.tlog
+*.ilk
+*.opensdf
+*.sdf
+*.pdb
+*.suo
+Debug/*
+Release/*
+
