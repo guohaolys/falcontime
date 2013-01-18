@@ -62,7 +62,7 @@ unsigned int client_id -> guid value
 Activate Message (server -> client)
 unsigned int message_size -> 108
 unsigned int message_id -> 51
-unsigned char[100] -> time of zero seconds, format: "YYYY-MM-DD HH:MM:SS.DDDDDDDDDDDDDDDDDDDDDDD" (null terminated, UTC value)
+unsigned char[100] time_string -> time of zero seconds, format: "YYYY-MM-DD HH:MM:SS.DDDDDDDDDDDDDDDDDDDDDDD" (null terminated, UTC value)
 
 Timezone Offset (server -> client)
 unsigned int message_size -> 52
