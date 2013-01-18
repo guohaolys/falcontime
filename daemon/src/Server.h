@@ -19,3 +19,9 @@ This file is part of Falcon Time.
     along with Falcon Time.  If not, see <http://www.gnu.org/licenses/>.
 ************************************************************************/
 
+#ifndef _Server_h_
+#define _Server_h_
+
+class Server{
+};
+#endif //_Server_h_
