@@ -1,0 +1,121 @@
+
+
+Rapid response messages
+These messages are used for the actual synchronization, and must be turned around immediately. All other communication is done with the non-realtime messages.
+
+These messages will use port 10320 UDP
+
+unsigned int implies 32-bit big endian number
+
+Time Request Message (client -> server) - 8B
+unsigned int message_id -> 1 (Time Request)
+unsigned int client_id -> predetermined value of the client
+
+Time Response Message (server -> client) - 16B
+unsigned int message_id -> 2 (Time Response)
+unsigned int client_id -> predetermined value of the client
+unsigned int seconds -> seconds since start
+unsigned int nanoseconds -> Nanoseconds since last second rollover
+
+Narrowing Time Message (client -> server) - 24B
+unsigned int message_id -> 10 
+unsigned int client_id
+unsigned int seconds_received
+unsigned int nanoseconds_received
+unsigned int client_received_at_seconds
+unsigned int client_received_at_nanoseconds
+
+Signed Time Response Message (server -> client) - 28B
+unsigned int message_id -> 20 (Encrypted Time Response)
+unsigned int client_id -> predetermined value of the client
+unsigned int seconds -> seconds since start
+unsigned int nanoseconds -> Nanoseconds since last second rollover
+unsigned int random_index -> index of the random value used (uses this index plus 1 more)
+unsigned int encrypted_seconds -> Encrypted value of seconds
+unsigned int encrypted_nanoseconds -> Encrypted value of nanoseconds
+
+Signed Narrowing Time Message (client -> server) - 44B
+unsigned int message_id -> 21
+unsigned int client_id
+unsigned int seconds_received
+unsigned int nanoseconds_received
+unsigned int client_received_at_seconds
+unsigned int client_received_at_nanoseconds
+unsigned int random_index (uses this index plus 3 more)
+unsigned int encrypted_seconds_received
+unsigned int encrypted_nanoseconds_received
+unsigned int encrypted_client_received_at_seconds
+unsigned int encrypted_client_received_at_nanoseconds
+
+
+Non-realtime messages
+These messages are used for all the non-rapid response buisness that needs to be passed between the client and server. When each client comes up they initiate a TCP socket on port 10320 (or TLS socket on port 10321?) and keep this open for the duration of the session. If this connection is lost for any reason the client must start a new one, re-activate, and re-join any groups.
+
+unsigned int implies 32-bit big endian number
+double implies ieee double precision floating point number
+
+Startup Message (client -> server)
+unsigned int message_size -> 12
+unsigned int message_id -> 50
+unsigned int client_id -> guid value
+
+Activate Message (server -> client)
+unsigned int message_size -> 108
+unsigned int message_id -> 51
+unsigned char[100] -> time of zero seconds, format: "YYYY-MM-DD HH:MM:SS.DDDDDDDDDDDDDDDDDDDDDDD" (null terminated, UTC value)
+
+Timezone Offset (server -> client)
+unsigned int message_size -> 52
+unsigned int message_id -> 12
+signed int offset_seconds -> number of seconds offset from UTC, usually a multiple of 3600 (1hr) or 1800 (30min)
+
+Group Join (client -> server)
+unsigned int message_size -> 16
+unsigned int message_id -> 60
+unsigned int client_id
+unsigned int group_id
+
+Group Time Offset (server -> client)
+unsigned int message_size -> 20
+unsigned int message_id -> 61
+unsigned int group_id 
+signed int offset_seconds -> number of seconds offset from UTC for this group
+signed int offset_nanoseconds 
+
+Group Time Multiplier Update (client -> server)
+unsigned int message_size -> 28
+unsigned int message_id -> 62
+unsigned int group_id 
+double multiplier
+unsigned int start_second
+unsigned int start_nanosecond
+
+Group Time Multiplier Status (server -> client)
+unsigned int message_size -> 28
+unsigned int message_id -> 63
+unsigned int group_id 
+double multiplier
+unsigned int start_second
+unsigned int start_nanosecond
+
+Signing Enable Message (client -> server) (only available over TLS)
+unsigned int message_size -> 4112
+unsigned int message_id -> 70
+unsigned int client_id 
+unsigned int enable -> 1
+unsigned int[4096] random_data
+
+Signing Verified Message (server -> client) (only available over TLS)
+unsigned int message_size -> 12
+unsigned int message_id -> 71
+unsigned int enable -> 1
+
+Add Random Data (client -> server) (only available over TLS)
+unsigned int message_size -> 4108
+unsigned int message_id -> 72
+unsigned int client_id 
+unsigned int[4096] random_data
+
+Verify Random Data (server -> client) (only available over TLS)
+unsigned int message_size -> 12
+unsigned int message_id -> 73
