@@ -21,6 +21,20 @@ This file is part of Falcon Time.
 #ifndef _HighprefClock_h
 #define _HighprefClock_h
 
+#include <boost/cstdint.hpp>
+#include <string>
 
+namespace FalconTime{
+    class HighprefClock{
+    public:
+        HighprefClock();
+        uint64_t nanoseconds(){
+            return local_nanoseconds() - _local_start_offset;
+        }
 
+    private:
+        uint64_t local_nanoseconds();
+        uint64_t _local_start_offset;
+    };
+};
 #endif //_HighprefClock_h

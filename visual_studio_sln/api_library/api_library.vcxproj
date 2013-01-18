@@ -10,6 +10,13 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\api\C\falcontime.h" />
+    <ClInclude Include="..\..\lib\src\HighprefClock.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\lib\src\HighprefClock.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BC5BE20B-0524-42B2-9D13-B85823FFD138}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
