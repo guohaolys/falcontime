@@ -19,9 +19,10 @@ This file is part of Falcon Time.
     along with Falcon Time.  If not, see <http://www.gnu.org/licenses/>.
 ************************************************************************/
 
+int falcon_main(int argc, char* argv[]);
 
 int main(int argc, char* argv[])
 {
-	return 0;
+	return falcon_main(argc,argv);
 }
 

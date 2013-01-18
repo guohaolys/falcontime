@@ -19,8 +19,26 @@ This file is part of Falcon Time.
     along with Falcon Time.  If not, see <http://www.gnu.org/licenses/>.
 ************************************************************************/
 
+#include <boost/program_options.hpp>
+#include <iostream>
+namespace po = boost::program_options;
+
 int falcon_main(int argc, char* argv[])
 {
-    
+    po::options_description desc("Allowed options");
+    desc.add_options()
+        ("help", "produce help message")
+		("server", "run as server not client (client is default)")
+		("port", "change port from the default of 10320")
+    ;
+
+    po::variables_map vm;        
+    po::store(po::parse_command_line(ac, av, desc), vm);
+    po::notify(vm);    
+
+    if (vm.count("help")) {
+        std::cout << desc << "\n";
+        return 1;
+    }
     return 0;
 }
