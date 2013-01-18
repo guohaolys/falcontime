@@ -21,6 +21,8 @@ This file is part of Falcon Time.
 
 #include <boost/program_options.hpp>
 #include <iostream>
+#include "Client.h"
+#include "Server.h"
 
 namespace po = boost::program_options;
 
@@ -29,8 +31,8 @@ int falcon_main(int argc, char* argv[])
     po::options_description desc("Allowed options");
     desc.add_options()
         ("help", "produce help message")
-		("server", "run as server not client (client is default)")
-		("port", "change port from the default of 10320")
+		("server", "run as server (by default runs as client)")
+		("port", po::value<unsigned short>(), "change port from the default of 10320")
     ;
 
     po::variables_map vm;        
@@ -51,5 +53,13 @@ int falcon_main(int argc, char* argv[])
 	if (vm.count("port")) {
 		port = vm["port"].as<unsigned short>();
 	}
+
+    if(server){
+        Server* s = new Server();
+        s->StartServer(port);
+    }else{
+        Client* c = new Client();
+        c->StartClient(port);
+    }
     return 0;
 }

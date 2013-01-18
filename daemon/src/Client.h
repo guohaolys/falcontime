@@ -23,5 +23,8 @@ This file is part of Falcon Time.
 #define _Client_h_
 
 class Client{
+public:
+    void StartClient(unsigned short port);
+private:
 };
 #endif //_Client_h_

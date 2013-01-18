@@ -23,5 +23,8 @@ This file is part of Falcon Time.
 #define _Server_h_
 
 class Server{
+public:
+    void StartServer(unsigned short port);
+private:
 };
 #endif //_Server_h_

@@ -76,15 +76,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\daemon\src\Client.cpp" />
     <ClCompile Include="..\..\daemon\src\falcon_main.cpp" />
     <ClCompile Include="..\..\daemon\src\HousekeepingSorter.cpp" />
     <ClCompile Include="..\..\daemon\src\RealtimeSorter.cpp" />
+    <ClCompile Include="..\..\daemon\src\Server.cpp" />
     <ClCompile Include="daemon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\daemon\src\base_messages.h" />
+    <ClInclude Include="..\..\daemon\src\Client.h" />
     <ClInclude Include="..\..\daemon\src\HousekeepingSorter.h" />
     <ClInclude Include="..\..\daemon\src\RealtimeSorter.h" />
+    <ClInclude Include="..\..\daemon\src\Server.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
