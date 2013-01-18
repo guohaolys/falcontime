@@ -21,6 +21,7 @@ This file is part of Falcon Time.
 
 #include <boost/program_options.hpp>
 #include <iostream>
+
 namespace po = boost::program_options;
 
 int falcon_main(int argc, char* argv[])
@@ -36,9 +37,19 @@ int falcon_main(int argc, char* argv[])
     po::store(po::parse_command_line(argc, argv, desc), vm);
     po::notify(vm);    
 
+	bool server = false;
+	unsigned short port = 10320;
+
     if (vm.count("help")) {
         std::cout << desc << "\n";
         return 1;
     }
+
+	if (vm.count("server")) {
+		server = true;
+	}
+	if (vm.count("port")) {
+		port = vm["port"].as<unsigned short>();
+	}
     return 0;
 }
