@@ -22,6 +22,17 @@ This file is part of Falcon Time.
 #ifndef _falcontime_h_
 #define _falcontime_h_
 
-unsigned int get_nano_seconds();
+struct highpref_time
+{
+    unsigned int seconds;
+    unsigned int nanoseconds;
+};
+
+/* This is a string representing the start of the seconds clock (in UTC)
+   it has the format YYYY-MM-DD HH:MM:SS.DDDDDDDDD */
+char* get_start();
+/* This is the number of seconds and nanoseconds that have elapsed since
+   the start time */
+highpref_time get_time();
 
 #endif /*_falcontime_h_*/
