@@ -19,8 +19,8 @@ This file is part of Falcon Time.
     along with Falcon Time.  If not, see <http://www.gnu.org/licenses/>.
 ************************************************************************/
 
-#include <iostream>
 #include "Server.h"
+#include <iostream>
 
 void Server::StartServer(unsigned short port){
     std::cout << "Starting Server on port " << port << std::endl;

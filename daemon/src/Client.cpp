@@ -18,8 +18,8 @@ This file is part of Falcon Time.
     You should have received a copy of the GNU General Public License
     along with Falcon Time.  If not, see <http://www.gnu.org/licenses/>.
 ************************************************************************/
-#include <iostream>
 #include "Client.h"
+#include <iostream>
 
 void Client::StartClient(unsigned short port){
     std::cout << "Starting Client on port " << port << std::endl;

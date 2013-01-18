@@ -19,10 +19,10 @@ This file is part of Falcon Time.
     along with Falcon Time.  If not, see <http://www.gnu.org/licenses/>.
 ************************************************************************/
 
-#include <boost/program_options.hpp>
-#include <iostream>
 #include "Client.h"
 #include "Server.h"
+#include <boost/program_options.hpp>
+#include <iostream>
 
 namespace po = boost::program_options;
 
@@ -31,28 +31,28 @@ int falcon_main(int argc, char* argv[])
     po::options_description desc("Allowed options");
     desc.add_options()
         ("help", "produce help message")
-		("server", "run as server (by default runs as client)")
-		("port", po::value<unsigned short>(), "change port from the default of 10320")
+        ("server", "run as server (by default runs as client)")
+        ("port", po::value<unsigned short>(), "change port from the default of 10320")
     ;
 
     po::variables_map vm;        
     po::store(po::parse_command_line(argc, argv, desc), vm);
     po::notify(vm);    
 
-	bool server = false;
-	unsigned short port = 10320;
+    bool server = false;
+    unsigned short port = 10320;
 
     if (vm.count("help")) {
         std::cout << desc << "\n";
         return 1;
     }
 
-	if (vm.count("server")) {
-		server = true;
-	}
-	if (vm.count("port")) {
-		port = vm["port"].as<unsigned short>();
-	}
+    if (vm.count("server")) {
+        server = true;
+    }
+    if (vm.count("port")) {
+        port = vm["port"].as<unsigned short>();
+    }
 
     if(server){
         Server* s = new Server();
