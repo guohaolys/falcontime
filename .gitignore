@@ -7,6 +7,6 @@
 *.sdf
 *.pdb
 *.suo
-Debug/*
-Release/*
+*/Debug/*
+*/Release/*
 
