@@ -83,20 +83,24 @@ signed int offset_seconds -> number of seconds offset from UTC for this group
 signed int offset_nanoseconds 
 
 Group Time Multiplier Update (client -> server)
-unsigned int message_size -> 28
+unsigned int message_size -> 36
 unsigned int message_id -> 62
 unsigned int group_id 
 double multiplier
-unsigned int start_second
-unsigned int start_nanosecond
+unsigned int absolute_start_second
+unsigned int absolute_start_nanosecond
+unsigned int aparent_start_second
+unsigned int aparent_start_nanosecond
 
 Group Time Multiplier Status (server -> client)
-unsigned int message_size -> 28
+unsigned int message_size -> 36
 unsigned int message_id -> 63
 unsigned int group_id 
 double multiplier
-unsigned int start_second
-unsigned int start_nanosecond
+unsigned int absolute_start_second
+unsigned int absolute_start_nanosecond
+unsigned int aparent_start_second
+unsigned int aparent_start_nanosecond
 
 Signing Enable Message (client -> server) (only available over TLS)
 unsigned int message_size -> 4112
