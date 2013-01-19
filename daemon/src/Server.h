@@ -22,9 +22,20 @@ This file is part of Falcon Time.
 #ifndef _Server_h_
 #define _Server_h_
 
+#include <boost/unordered_map.hpp>
+#include <boost/date_time/posix_time/posix_time_types.hpp>
+
+class ClientConnection;
+namespace FalconTime {class HighprefClock;};
+
 class Server{
 public:
+    Server();
+    ~Server();
     void StartServer(unsigned short port);
 private:
+    boost::unordered_map<unsigned int, ClientConnection*> _client_list;
+    FalconTime::HighprefClock* _clock;
+    boost::posix_time::ptime _start_time;
 };
 #endif //_Server_h_

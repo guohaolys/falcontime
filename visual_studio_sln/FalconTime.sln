@@ -2,6 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "daemon", "daemon\daemon.vcxproj", "{ECC78674-3950-470B-A12C-FCAC7177E04A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BC5BE20B-0524-42B2-9D13-B85823FFD138} = {BC5BE20B-0524-42B2-9D13-B85823FFD138}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "api_library", "api_library\api_library.vcxproj", "{BC5BE20B-0524-42B2-9D13-B85823FFD138}"
 EndProject

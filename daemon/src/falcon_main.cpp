@@ -51,7 +51,7 @@ int falcon_main(int argc, char* argv[])
 
     if (vm.count("client")) {
         server = false;
-        server_address = vp["client"].as<std::string>();
+        server_address = vm["client"].as<std::string>();
     }
     if (vm.count("port")) {
         port = vm["port"].as<unsigned short>();

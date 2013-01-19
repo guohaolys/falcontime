@@ -20,7 +20,19 @@ This file is part of Falcon Time.
 ************************************************************************/
 
 #include "Server.h"
+#include "HighprefClock.h"
+#include <boost/date_time.hpp>
 #include <iostream>
+
+
+Server::Server(){
+    _clock = new FalconTime::HighprefClock();
+    _start_time = boost::posix_time::microsec_clock::universal_time();
+}
+
+Server::~Server(){
+    delete _clock;
+}
 
 void Server::StartServer(unsigned short port){
     std::cout << "Starting Server on port " << port << std::endl;

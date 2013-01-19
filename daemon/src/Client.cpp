@@ -21,6 +21,7 @@ This file is part of Falcon Time.
 #include "Client.h"
 #include <iostream>
 
-void Client::StartClient(unsigned short port){
-    std::cout << "Starting Client on port " << port << std::endl;
+void Client::StartClient(std::string host, unsigned short port){
+    std::cout << "Starting Client, connecting to host" << host << 
+        " on port " << port << std::endl;
 }

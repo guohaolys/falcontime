@@ -19,3 +19,11 @@ This file is part of Falcon Time.
     along with Falcon Time.  If not, see <http://www.gnu.org/licenses/>.
 ************************************************************************/
 
+#ifndef _ClientConnection_h_
+#define _ClientConnection_h_
+
+class ClientConnection{
+};
+
+
+#endif // _ClientConnection_h_
