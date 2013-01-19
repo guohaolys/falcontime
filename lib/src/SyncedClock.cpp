@@ -19,24 +19,19 @@ This file is part of Falcon Time.
     along with Falcon Time.  If not, see <http://www.gnu.org/licenses/>.
 ************************************************************************/
 
-#ifndef _falcontime_h_
-#define _falcontime_h_
+#include "SyncedClock.h"
+using namespace FalconTime;
 
-struct highpref_time
-{
-    unsigned int seconds;
-    unsigned int nanoseconds;
-};
+SyncedClock::SyncedClock(){
+    _clock = new MainClock();
+    _offset = new Offset();
+}
 
-/* Returns 0 if successful */
-int enable_falcon_time();
+SyncedClock::~SyncedClock(){
+    delete _clock;
+    delete _offset;
+}
 
-/* This is a string representing the start of the seconds clock (in UTC)
-   it has the format YYYY-MM-DD HH:MM:SS.DDDDDDDDDD. The char array must
-   be at least 32 bytes long*/
-void get_start(char* );
-/* This is the number of seconds and nanoseconds that have elapsed since
-   the start time */
-highpref_time get_time();
-
-#endif /*_falcontime_h_*/
+uint64_t SyncedClock::nanoseconds(){
+    return _clock->nanoseconds() - _offset->get_offset();
+}

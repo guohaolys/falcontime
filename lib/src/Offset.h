@@ -23,6 +23,7 @@ This file is part of Falcon Time.
 #define _Offset_h_
 
 #include <boost/cstdint.hpp>
+#include <string>
 
 namespace FalconTime{
     class Offset{
@@ -30,10 +31,14 @@ namespace FalconTime{
         Offset();
         ~Offset();
 
-        void set_offset(int64_t value);
         int64_t get_offset();
+        std::string get_start();
+
+        void set_offset(int64_t value);
+        void set_start(std::string);
     private:
         int64_t _offset;
+        std::string _start; // This is the start of the main time, nothing local.
     };
 };
 

@@ -29,7 +29,13 @@ using namespace FalconTime;
 void Offset::set_offset(int64_t value){
     _offset = value;
 }
+void Offset::set_start(std::string value){
+    _start = value;
+}
 
 int64_t Offset::get_offset(){
     return _offset;
+}
+std::string Offset::get_start(){
+    return _start;
 }

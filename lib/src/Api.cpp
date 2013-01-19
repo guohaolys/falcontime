@@ -18,25 +18,41 @@ This file is part of Falcon Time.
     You should have received a copy of the GNU General Public License
     along with Falcon Time.  If not, see <http://www.gnu.org/licenses/>.
 ************************************************************************/
+#include "Api.h"
+#include "HighprefClock.h"
 
-#ifndef _falcontime_h_
-#define _falcontime_h_
+using namespace FalconTime;
 
-struct highpref_time
-{
-    unsigned int seconds;
-    unsigned int nanoseconds;
-};
+static Api* api;
 
-/* Returns 0 if successful */
-int enable_falcon_time();
+int enable_falcon_time(){
+    api = new Api();
+    return 0;
+}
+void get_start(char* start){
+    std::string s = api->start();
+    std::copy(s.begin(), s.end(), start);
+    start[s.size()] = '\0'; // Need to null terminate
+    return;
+}
+highpref_time get_time(){
+    return api->elapsed();
+}
 
-/* This is a string representing the start of the seconds clock (in UTC)
-   it has the format YYYY-MM-DD HH:MM:SS.DDDDDDDDDD. The char array must
-   be at least 32 bytes long*/
-void get_start(char* );
-/* This is the number of seconds and nanoseconds that have elapsed since
-   the start time */
-highpref_time get_time();
+Api::Api(){
+    _clock = new SyncedClock();
+    _conn = new LibraryConnection(_clock);
+}
 
-#endif /*_falcontime_h_*/
+Api::~Api(){
+    delete _conn;
+    delete _clock;
+}
+
+highpref_time Api::elapsed(){
+    return nanoseconds_to_highpref_time(_clock->nanoseconds());
+}
+
+std::string Api::start(){
+    return _clock->get_offset()->get_start();
+}
