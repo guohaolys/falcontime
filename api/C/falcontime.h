@@ -30,6 +30,8 @@ struct highpref_time
 
 /* Returns 0 if successful */
 int enable_falcon_time();
+int enable_falcon_time_as_client(char* server_address, 
+                                 unsigned short server_port = 10320);
 
 /* This is a string representing the start of the seconds clock (in UTC)
    it has the format YYYY-MM-DD HH:MM:SS.DDDDDDDDDD. The char array must

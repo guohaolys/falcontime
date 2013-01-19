@@ -30,6 +30,7 @@ namespace FalconTime{
     class Api{
     public:
         Api();
+        Api(std::string server_address, unsigned short server_port);
         ~Api();
 
         std::string start();

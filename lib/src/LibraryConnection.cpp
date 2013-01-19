@@ -19,3 +19,14 @@ This file is part of Falcon Time.
     along with Falcon Time.  If not, see <http://www.gnu.org/licenses/>.
 ************************************************************************/
 
+#include "LibraryConnection.h"
+using namespace FalconTime;
+
+LibraryConnection::LibraryConnection(SyncedClock* clock)
+{
+}
+
+LibraryConnection::LibraryConnection(SyncedClock* clock, 
+            std::string server_address, unsigned int port)
+{
+}

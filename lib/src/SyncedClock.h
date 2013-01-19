@@ -36,6 +36,7 @@ namespace FalconTime{
         uint64_t nanoseconds();
 
         Offset* get_offset(){return _offset;}
+        MainClock* get_local_clock(){return _local_clock;}
 
     private:
         MainClock* _local_clock;

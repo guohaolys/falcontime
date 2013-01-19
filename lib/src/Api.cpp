@@ -30,6 +30,12 @@ int enable_falcon_time(){
     api = new Api();
     return 0;
 }
+int enable_falcon_time_as_client(char* server_address, 
+                                 unsigned short server_port = 10320){
+    std::string address = server_address;
+    api = new Api(address, server_port);
+    return 0;
+}
 void get_start(char* start){
     std::string s = api->start();
     std::copy(s.begin(), s.end(), start);
@@ -43,6 +49,10 @@ highpref_time get_time(){
 Api::Api(){
     _clock = new SyncedClock();
     _conn = new LibraryConnection(_clock);
+}
+Api::Api(std::string server_address, unsigned short server_port){
+    _clock = new SyncedClock();
+    _conn = new LibraryConnection(_clock, server_address, server_port);
 }
 
 Api::~Api(){

@@ -13,18 +13,23 @@
   <ItemGroup>
     <ClInclude Include="..\..\api\C\falcontime.h" />
     <ClInclude Include="..\..\lib\src\Api.h" />
+    <ClInclude Include="..\..\lib\src\base_messages.h" />
     <ClInclude Include="..\..\lib\src\HighprefClock.h" />
+    <ClInclude Include="..\..\lib\src\HousekeepingSorter.h" />
     <ClInclude Include="..\..\lib\src\LibraryConnection.h" />
     <ClInclude Include="..\..\lib\src\MainClock.h" />
     <ClInclude Include="..\..\lib\src\Offset.h" />
+    <ClInclude Include="..\..\lib\src\RealtimeSorter.h" />
     <ClInclude Include="..\..\lib\src\SyncedClock.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\lib\src\Api.cpp" />
     <ClCompile Include="..\..\lib\src\HighprefClock.cpp" />
+    <ClCompile Include="..\..\lib\src\HousekeepingSorter.cpp" />
     <ClCompile Include="..\..\lib\src\LibraryConnection.cpp" />
     <ClCompile Include="..\..\lib\src\MainClock.cpp" />
     <ClCompile Include="..\..\lib\src\Offset.cpp" />
+    <ClCompile Include="..\..\lib\src\RealtimeSorter.cpp" />
     <ClCompile Include="..\..\lib\src\SyncedClock.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

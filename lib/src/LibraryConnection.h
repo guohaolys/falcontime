@@ -20,6 +20,9 @@ This file is part of Falcon Time.
 ************************************************************************/
 #ifndef _LibraryConnection_h_
 #define _LibraryConnection_h_
+
+#include <string>
+
 namespace FalconTime{
     class SyncedClock;
     class Offset;
@@ -28,6 +31,8 @@ namespace FalconTime{
     class LibraryConnection{
     public:
         LibraryConnection(SyncedClock* clock);
+        LibraryConnection(SyncedClock* clock, 
+            std::string server_address, unsigned int port);
         LibraryConnection();
     private:
         Offset* _offset;
