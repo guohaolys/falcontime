@@ -20,18 +20,21 @@ This file is part of Falcon Time.
 ************************************************************************/
 
 #include "SyncedClock.h"
+#include "Offset.h"
+#include "MainClock.h"
+
 using namespace FalconTime;
 
 SyncedClock::SyncedClock(){
-    _clock = new MainClock();
+    _local_clock = new MainClock();
     _offset = new Offset();
 }
 
 SyncedClock::~SyncedClock(){
-    delete _clock;
+    delete _local_clock;
     delete _offset;
 }
 
 uint64_t SyncedClock::nanoseconds(){
-    return _clock->nanoseconds() - _offset->get_offset();
+    return _local_clock->nanoseconds() - _offset->get_offset();
 }

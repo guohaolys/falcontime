@@ -24,12 +24,14 @@ This file is part of Falcon Time.
 
 #include "base_messages.h"
 
-class RealtimeSorter{
-public:
-    void Receive(unsigned char* buffer, unsigned int buffer_length);
-    
-private:
-      
-};
+namespace FalconTime{
 
+    class RealtimeSorter{
+    public:
+        void Receive(unsigned char* buffer, unsigned int buffer_length);
+    
+    private:
+      
+    };
+};
 #endif // _RealtimeSorter_h_

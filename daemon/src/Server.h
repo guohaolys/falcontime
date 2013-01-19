@@ -24,16 +24,18 @@ This file is part of Falcon Time.
 
 #include <boost/unordered_map.hpp>
 
-class ClientConnection;
-class MainClock;
+namespace FalconTime{
+    class ClientConnection;
+    class MainClock;
 
-class Server{
-public:
-    Server();
-    ~Server();
-    void StartServer(unsigned short port);
-private:
-    boost::unordered_map<unsigned int, ClientConnection*> _client_list;
-    MainClock* _clock;
+    class Server{
+    public:
+        Server();
+        ~Server();
+        void StartServer(unsigned short port);
+    private:
+        boost::unordered_map<unsigned int, ClientConnection*> _client_list;
+        MainClock* _clock;
+    };
 };
 #endif //_Server_h_

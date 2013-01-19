@@ -24,6 +24,8 @@ This file is part of Falcon Time.
 #include <boost/date_time.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 
+using namespace FalconTime;
+
 MainClock::MainClock(){
     _local_clock = new FalconTime::HighprefClock();
     _start_time = boost::posix_time::microsec_clock::universal_time();

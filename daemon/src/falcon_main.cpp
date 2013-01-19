@@ -25,6 +25,7 @@ This file is part of Falcon Time.
 #include <iostream>
 #include <string>
 
+using namespace FalconTime;
 namespace po = boost::program_options;
 
 int falcon_main(int argc, char* argv[])

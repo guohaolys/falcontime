@@ -20,6 +20,7 @@ This file is part of Falcon Time.
 ************************************************************************/
 #include "Api.h"
 #include "HighprefClock.h"
+#include "Offset.h"
 
 using namespace FalconTime;
 

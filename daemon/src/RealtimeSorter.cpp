@@ -19,3 +19,5 @@ This file is part of Falcon Time.
     along with Falcon Time.  If not, see <http://www.gnu.org/licenses/>.
 ************************************************************************/
 
+#include "RealtimeSorter.h"
+using namespace FalconTime;

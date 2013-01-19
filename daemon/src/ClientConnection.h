@@ -22,7 +22,9 @@ This file is part of Falcon Time.
 #ifndef _ClientConnection_h_
 #define _ClientConnection_h_
 
-class ClientConnection{
+namespace FalconTime{
+    class ClientConnection{
+    };
 };
 
 

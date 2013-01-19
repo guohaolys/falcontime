@@ -26,6 +26,11 @@ using namespace FalconTime;
 // TODO: This is not thread-safe and should be! We need to add mutexes or
 // fancy ways of flushing cache between reads and writes.
 
+Offset::Offset(){
+    _offset = 0;
+    _start = "0000-00-00 00:00:00.000000000";
+}
+
 void Offset::set_offset(int64_t value){
     _offset = value;
 }

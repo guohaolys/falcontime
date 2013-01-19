@@ -24,9 +24,11 @@ This file is part of Falcon Time.
 
 #include <string>
 
-class Client{
-public:
-    void StartClient(std::string server_address, unsigned short port);
-private:
+namespace FalconTime{
+    class Client{
+    public:
+        void StartClient(std::string server_address, unsigned short port);
+    private:
+    };
 };
 #endif //_Client_h_

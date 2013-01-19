@@ -28,16 +28,17 @@ This file is part of Falcon Time.
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 #include <boost/cstdint.hpp>
 
-class MainClock{
-public:
-    MainClock();
-    ~MainClock();
+namespace FalconTime{
+    class MainClock{
+    public:
+        MainClock();
+        ~MainClock();
 
-    boost::posix_time::ptime utc_time();
-    uint64_t nanoseconds() {return _local_clock->nanoseconds();}
-private:
-    FalconTime::HighprefClock* _local_clock;
-    boost::posix_time::ptime _start_time;
+        boost::posix_time::ptime utc_time();
+        uint64_t nanoseconds() {return _local_clock->nanoseconds();}
+    private:
+        FalconTime::HighprefClock* _local_clock;
+        boost::posix_time::ptime _start_time;
+    };
 };
-
 #endif _MainClock_h_

@@ -23,6 +23,7 @@ This file is part of Falcon Time.
 namespace FalconTime{
     class SyncedClock;
     class Offset;
+    class MainClock;
 
     class LibraryConnection{
     public:
@@ -30,6 +31,7 @@ namespace FalconTime{
         LibraryConnection();
     private:
         Offset* _offset;
+        MainClock* _local_clock;
     };
 };
 #endif //_LibraryConnection_h_

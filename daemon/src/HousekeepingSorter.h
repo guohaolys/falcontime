@@ -24,13 +24,14 @@ This file is part of Falcon Time.
 
 #include "base_messages.h"
 
-class HousekeepingSorter{
-public:
-    void Receive(unsigned char* buffer, unsigned int buffer_length);
+namespace FalconTime{
+    class HousekeepingSorter{
+    public:
+        void Receive(unsigned char* buffer, unsigned int buffer_length);
     
-private:
+    private:
       
     
+    };
 };
-
 #endif // _HousekeepingSorter_h_

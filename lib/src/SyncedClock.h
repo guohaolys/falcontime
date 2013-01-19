@@ -22,11 +22,12 @@ This file is part of Falcon Time.
 #ifndef _SyncedClock_h_
 #define _SyncedClock_h_
 
-#include "MainClock.h"
-#include "Offset.h"
 #include <boost/cstdint.hpp>
 
 namespace FalconTime{
+    class Offset;
+    class MainClock;
+
     class SyncedClock{
     public:
         SyncedClock();
@@ -37,7 +38,7 @@ namespace FalconTime{
         Offset* get_offset(){return _offset;}
 
     private:
-        MainClock* _clock;
+        MainClock* _local_clock;
         Offset* _offset;
     };
 };

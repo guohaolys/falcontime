@@ -37,8 +37,10 @@ namespace FalconTime{
         void set_offset(int64_t value);
         void set_start(std::string);
     private:
-        int64_t _offset;
-        std::string _start; // This is the start of the main time, nothing local.
+        // Number of nanoseconds the local clock is off from the main clock
+        int64_t _offset; 
+        // This is the start of the main clock, nothing local.
+        std::string _start; 
     };
 };
 

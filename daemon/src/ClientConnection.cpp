@@ -18,4 +18,5 @@ This file is part of Falcon Time.
     You should have received a copy of the GNU General Public License
     along with Falcon Time.  If not, see <http://www.gnu.org/licenses/>.
 ************************************************************************/
-
+#include "ClientConnection.h"
+using namespace FalconTime;

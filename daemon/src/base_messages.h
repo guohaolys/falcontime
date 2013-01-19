@@ -51,7 +51,7 @@ struct activate_message{
     unsigned int message_id; /* 51 */
     /* time of zero seconds, format: "YYYY-MM-DD HH:MM:SS.DDDDDDDDDDDDDDDDDDDDDDD" 
        null terminated, UTC value */
-    unsigned char[100] time_string; 
+    unsigned char time_string[100]; 
 };
 
 struct timezone_offset{

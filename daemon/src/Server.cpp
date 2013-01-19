@@ -23,6 +23,7 @@ This file is part of Falcon Time.
 #include "MainClock.h"
 #include <iostream>
 
+using namespace FalconTime;
 
 Server::Server(){
     _clock = new MainClock();
