@@ -23,6 +23,7 @@ This file is part of Falcon Time.
 #include "Server.h"
 #include <boost/program_options.hpp>
 #include <iostream>
+#include <string>
 
 namespace po = boost::program_options;
 
@@ -31,7 +32,7 @@ int falcon_main(int argc, char* argv[])
     po::options_description desc("Allowed options");
     desc.add_options()
         ("help", "produce help message")
-        ("server", "run as server (by default runs as client)")
+        ("client", po::value<std::string>(), "run as client to this IP (of server) (by default runs as server)")
         ("port", po::value<unsigned short>(), "change port from the default of 10320")
     ;
 
@@ -39,7 +40,8 @@ int falcon_main(int argc, char* argv[])
     po::store(po::parse_command_line(argc, argv, desc), vm);
     po::notify(vm);    
 
-    bool server = false;
+    bool server = true;
+    std::string server_address;
     unsigned short port = 10320;
 
     if (vm.count("help")) {
@@ -47,8 +49,9 @@ int falcon_main(int argc, char* argv[])
         return 1;
     }
 
-    if (vm.count("server")) {
-        server = true;
+    if (vm.count("client")) {
+        server = false;
+        server_address = vp["client"].as<std::string>();
     }
     if (vm.count("port")) {
         port = vm["port"].as<unsigned short>();
@@ -59,7 +62,7 @@ int falcon_main(int argc, char* argv[])
         s->StartServer(port);
     }else{
         Client* c = new Client();
-        c->StartClient(port);
+        c->StartClient(server_address, port);
     }
     return 0;
 }

@@ -22,9 +22,11 @@ This file is part of Falcon Time.
 #ifndef _Client_h_
 #define _Client_h_
 
+#include <string>
+
 class Client{
 public:
-    void StartClient(unsigned short port);
+    void StartClient(std::string server_address, unsigned short port);
 private:
 };
 #endif //_Client_h_
