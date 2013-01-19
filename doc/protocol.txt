@@ -69,22 +69,42 @@ unsigned int message_size -> 52
 unsigned int message_id -> 12
 signed int offset_seconds -> number of seconds offset from UTC, usually a multiple of 3600 (1hr) or 1800 (30min)
 
+Group Create (client -> server)
+unsigned int message_size -> 20
+unsigned int message_id -> 60
+unsigned int client_id
+unsigned int group_id (0 for randomly assigned ID)
+int start_seconds_offset
+int start_nanoseconds_offset
+
+Group Create Success (server -> client)
+unsigned int message_size -> 12
+unsigned int message_id -> 61
+unsigned int group_id
+
 Group Join (client -> server)
 unsigned int message_size -> 16
-unsigned int message_id -> 60
+unsigned int message_id -> 62
 unsigned int client_id
 unsigned int group_id
 
+Group Join Success (server -> client)
+unsigned int message_size -> 20
+unsigned int message_id -> 63
+unsigned int group_id
+int start_seconds_offset
+int start_nanoseconds_offset
+
 Group Time Offset (server -> client)
 unsigned int message_size -> 20
-unsigned int message_id -> 61
+unsigned int message_id -> 64
 unsigned int group_id 
 signed int offset_seconds -> number of seconds offset from UTC for this group
 signed int offset_nanoseconds 
 
 Group Time Multiplier Update (client -> server)
 unsigned int message_size -> 36
-unsigned int message_id -> 62
+unsigned int message_id -> 65
 unsigned int group_id 
 double multiplier
 unsigned int absolute_start_second
@@ -94,7 +114,7 @@ unsigned int aparent_start_nanosecond
 
 Group Time Multiplier Status (server -> client)
 unsigned int message_size -> 36
-unsigned int message_id -> 63
+unsigned int message_id -> 66
 unsigned int group_id 
 double multiplier
 unsigned int absolute_start_second
