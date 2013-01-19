@@ -29,6 +29,15 @@ This file is part of Falcon Time.
 
 using namespace FalconTime;
 
+uint64_t highpref_time_to_nanoseconds(highpref_time t){
+    return (t.seconds * NSEC_PER_SEC) + t.nanoseconds;
+}
+highpref_time nanoseconds_to_highpref_time(uint64_t ns){
+    highpref_time t;
+    t.seconds = static_cast<unsigned int>(ns / NSEC_PER_SEC);
+    t.nanoseconds = static_cast<unsigned int>(ns % NSEC_PER_SEC);
+    return t;
+}
 HighprefClock::HighprefClock(){
     _local_start_offset = this->local_nanoseconds();
 }

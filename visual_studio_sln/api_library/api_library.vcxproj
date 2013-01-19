@@ -13,9 +13,11 @@
   <ItemGroup>
     <ClInclude Include="..\..\api\C\falcontime.h" />
     <ClInclude Include="..\..\lib\src\HighprefClock.h" />
+    <ClInclude Include="..\..\lib\src\MainClock.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\lib\src\HighprefClock.cpp" />
+    <ClCompile Include="..\..\lib\src\MainClock.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BC5BE20B-0524-42B2-9D13-B85823FFD138}</ProjectGuid>
@@ -54,6 +56,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\api\C;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -69,6 +72,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\api\C;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

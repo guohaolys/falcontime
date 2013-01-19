@@ -19,3 +19,24 @@ This file is part of Falcon Time.
     along with Falcon Time.  If not, see <http://www.gnu.org/licenses/>.
 ************************************************************************/
 
+#include "MainClock.h"
+#include "HighprefClock.h"
+#include <boost/date_time.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
+
+MainClock::MainClock(){
+    _local_clock = new FalconTime::HighprefClock();
+    _start_time = boost::posix_time::microsec_clock::universal_time();
+}
+
+MainClock::~MainClock(){
+    delete _local_clock;
+}
+
+boost::posix_time::ptime MainClock::utc_time(){
+    using namespace boost::posix_time;
+
+    highpref_time elapsed = nanoseconds_to_highpref_time(this->nanoseconds());
+    time_duration td = seconds(elapsed.seconds) + boost::posix_time::nanoseconds(elapsed.nanoseconds);
+    return _start_time + td;
+}

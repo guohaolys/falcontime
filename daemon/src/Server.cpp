@@ -20,14 +20,12 @@ This file is part of Falcon Time.
 ************************************************************************/
 
 #include "Server.h"
-#include "HighprefClock.h"
-#include <boost/date_time.hpp>
+#include "MainClock.h"
 #include <iostream>
 
 
 Server::Server(){
-    _clock = new FalconTime::HighprefClock();
-    _start_time = boost::posix_time::microsec_clock::universal_time();
+    _clock = new MainClock();
 }
 
 Server::~Server(){

@@ -24,7 +24,18 @@ This file is part of Falcon Time.
 #include <boost/cstdint.hpp>
 #include <string>
 
+#define NSEC_PER_SEC 1000000000
+
+struct highpref_time
+{
+    unsigned int seconds;
+    unsigned int nanoseconds;
+};
+uint64_t highpref_time_to_nanoseconds(highpref_time t);
+highpref_time nanoseconds_to_highpref_time(uint64_t ns);
+
 namespace FalconTime{
+
     class HighprefClock{
     public:
         HighprefClock();
