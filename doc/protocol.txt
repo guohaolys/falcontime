@@ -65,9 +65,14 @@ unsigned int message_id -> 51
 unsigned char[100] time_string -> time of zero seconds, format: "YYYY-MM-DD HH:MM:SS.DDDDDDDDDDDDDDDDDDDDDDD" (null terminated, UTC value)
 
 Timezone Offset (server -> client)
-unsigned int message_size -> 52
-unsigned int message_id -> 12
+unsigned int message_size -> 12
+unsigned int message_id -> 52
 signed int offset_seconds -> number of seconds offset from UTC, usually a multiple of 3600 (1hr) or 1800 (30min)
+
+Offset Update Algorithm (server -> client)
+unsigned int message_size ->
+unsigned int message_id -> 53
+unsigned char[100] -> Algorithm string RAW_VALUE, HALF_ROUND_TRIP, SMOOTH_ONE_SEC, ????
 
 Group Create (client -> server)
 unsigned int message_size -> 20
