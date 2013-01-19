@@ -44,7 +44,8 @@ uint64_t HighprefClock::local_nanoseconds(){
     return (measurement.QuadPart * 1000000000) / frequency.QuadPart;
 #else
     timespec tp;
-    clock_gettime(CLOCK_REALTIME, &tp);
+    //clock_gettime(CLOCK_REALTIME, &tp);
+    clock_gettime(CLOCK_MONOTONIC, &tp);
     return static_cast<uint64_t>((tp.tv_sec * NSEC_PER_SEC) + tp.tv_nsec);
 #endif
 }
