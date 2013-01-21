@@ -23,6 +23,7 @@ This file is part of Falcon Time.
 #include "HighprefClock.h"
 #include "MainClock.h"
 #include "Offset.h"
+#include "LibraryConnection.h"
 
 using namespace FalconTime;
 
@@ -31,25 +32,41 @@ NetworkSyncer::NetworkSyncer(Offset* offset, MainClock* local_clock, LibraryConn
     _local_clock = local_clock;
     _conn = conn;
     _update_algorithm = RAW_VALUE;
+    _ignore_below = 10000000; //10ms
+}
+
+void NetworkSyncer::sync(){
+    time_request_message* m = new time_request_message();
+    m->message_id = 1;
+    m->client_id = _conn->get_client_id();
+    _conn->send_udp(m, 8);
+    _send_time = _local_clock->nanoseconds();
 }
 
 void NetworkSyncer::process_response(time_response_message m){
+    uint64_t local_ns = _local_clock->nanoseconds();
+
     highpref_time remote_time;
     remote_time.seconds = m.seconds;
     remote_time.nanoseconds = m.nanoseconds;
 
     uint64_t remote_ns = highpref_time_to_nanoseconds(remote_time);
-    uint64_t local_ns = _local_clock->nanoseconds();
     
+    int64_t difference;
     // TODO: Add different algorithms to update here
     switch(_update_algorithm){
     case HALF_ROUND_TRIP:
-        remote_ns = (remote_ns - _send_time) / 2;
-        _offset->set_offset(local_ns - remote_ns);
         break;
     case RAW_VALUE:
     default:
-        _offset->set_offset(local_ns - remote_ns);    
+       difference = local_ns - remote_ns;    
     }
-    
+    if(difference > _ignore_below){
+        _offset->set_offset(local_ns - remote_ns);
+    }
+}
+
+void NetworkSyncer::process_algorithm_update(offset_update_algorithm m){
+    //TODO: do string lookup
+
 }

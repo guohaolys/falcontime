@@ -29,6 +29,7 @@ namespace FalconTime{
     class MainClock;
     class RealtimeSorter;
     class HousekeepingSorter;
+    class NetworkSyncer;
 
     class LibraryConnection{
     public:
@@ -36,11 +37,19 @@ namespace FalconTime{
         LibraryConnection(SyncedClock* clock, 
             std::string server_address, unsigned int port);
         LibraryConnection();
+
+        unsigned get_client_id();
+
+        void send_udp(void* msg, std::size_t size);
+        void send_tcp(void* msg, std::size_t size);
+
     private:
         Offset* _offset;
         MainClock* _local_clock;
         RealtimeSorter* _realtime;
         HousekeepingSorter* _housekeeping;
+        NetworkSyncer* _network_syncer;
+        unsigned int _client_id;
     };
 };
 #endif //_LibraryConnection_h_

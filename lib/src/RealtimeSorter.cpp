@@ -20,4 +20,40 @@ This file is part of Falcon Time.
 ************************************************************************/
 
 #include "RealtimeSorter.h"
+#include <boost/foreach.hpp>
+#include <assert.h>
+
 using namespace FalconTime;
+
+void RealtimeSorter::receive(unsigned char* buffer, unsigned int buffer_length){
+    assert(buffer_length >= 4);
+    unsigned int* int_buffer = reinterpret_cast<unsigned int*>(buffer); 
+    unsigned int message_id = int_buffer[0];
+
+    switch(message_id){
+    case 1:
+        this->request(buffer, buffer_length);
+        break;
+    case 2:
+        this->response(buffer, buffer_length);
+        break;
+    default:
+        break;
+    }
+}
+
+void RealtimeSorter::request(unsigned char* buffer, unsigned int buffer_length){
+    assert(buffer_length == 8);
+    time_request_message* m = reinterpret_cast<time_request_message*>(buffer);
+    BOOST_FOREACH(time_request_callback handler, _request_handlers){
+        handler(*m);
+    }
+}
+
+void RealtimeSorter::response(unsigned char* buffer, unsigned int buffer_length){
+    assert(buffer_length == 16);
+    time_response_message* m = reinterpret_cast<time_response_message*>(buffer);
+    BOOST_FOREACH(time_response_callback handler, _response_handlers){
+        handler(*m);
+    }
+}

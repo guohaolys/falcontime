@@ -41,11 +41,15 @@ namespace FalconTime{
         void sync();
         void process_response(time_response_message m);
 
+        void process_algorithm_update(offset_update_algorithm m);
+
     private:
         Offset* _offset;
         MainClock* _local_clock;
         LibraryConnection* _conn;
         UPDATE_ALGORITHM _update_algorithm;
+        unsigned int _ignore_below;
+        unsigned int _rate;
         uint64_t _send_time;
     };
 };

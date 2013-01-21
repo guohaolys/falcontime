@@ -62,4 +62,11 @@ struct timezone_offset{
     int offset_seconds;
 };
 
+struct offset_update_algorithm{
+    unsigned int message_size; /* 116 */
+    unsigned int message_id; /* 53 */
+    unsigned char algorithm[100];
+    unsigned int ignore_below;
+    unsigned int rate;
+};
 #endif /*_base_messages_h*/
