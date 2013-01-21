@@ -38,6 +38,8 @@ namespace FalconTime{
         void set_start(std::string);
     private:
         // Number of nanoseconds the local clock is off from the main clock
+        // If the remote clock is 100 and the local clock is 90, this is -10.
+        // If the local clock is 120, this value is +20.
         int64_t _offset; 
         // This is the start of the main clock, nothing local.
         std::string _start; 

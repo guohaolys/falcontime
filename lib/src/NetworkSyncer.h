@@ -18,29 +18,35 @@ This file is part of Falcon Time.
     You should have received a copy of the GNU General Public License
     along with Falcon Time.  If not, see <http://www.gnu.org/licenses/>.
 ************************************************************************/
-#ifndef _LibraryConnection_h_
-#define _LibraryConnection_h_
 
-#include <string>
+#ifndef _NetworkSyncer_h_
+#define _NetworkSyncer_h_
+
+#include "base_messages.h"
 
 namespace FalconTime{
-    class SyncedClock;
+    enum UPDATE_ALGORITHM{
+        RAW_VALUE,
+        HALF_ROUND_TRIP
+    };
     class Offset;
     class MainClock;
-    class RealtimeSorter;
-    class HousekeepingSorter;
+    class LibraryConnection;
 
-    class LibraryConnection{
+    class NetworkSyncer{
     public:
-        LibraryConnection(SyncedClock* clock);
-        LibraryConnection(SyncedClock* clock, 
-            std::string server_address, unsigned int port);
-        LibraryConnection();
+        NetworkSyncer(Offset* offset, MainClock* local_clock, LibraryConnection* conn);
+        
+        void sync();
+        void process_response(time_response_message m);
+
     private:
         Offset* _offset;
         MainClock* _local_clock;
-        RealtimeSorter* _realtime;
-        HousekeepingSorter* _housekeeping;
+        LibraryConnection* _conn;
+        UPDATE_ALGORITHM _update_algorithm;
+        uint64_t _send_time;
     };
 };
-#endif //_LibraryConnection_h_
+
+#endif _Syncer_h_

@@ -18,6 +18,7 @@
     <ClInclude Include="..\..\lib\src\HousekeepingSorter.h" />
     <ClInclude Include="..\..\lib\src\LibraryConnection.h" />
     <ClInclude Include="..\..\lib\src\MainClock.h" />
+    <ClInclude Include="..\..\lib\src\NetworkSyncer.h" />
     <ClInclude Include="..\..\lib\src\Offset.h" />
     <ClInclude Include="..\..\lib\src\RealtimeSorter.h" />
     <ClInclude Include="..\..\lib\src\SyncedClock.h" />
@@ -28,6 +29,7 @@
     <ClCompile Include="..\..\lib\src\HousekeepingSorter.cpp" />
     <ClCompile Include="..\..\lib\src\LibraryConnection.cpp" />
     <ClCompile Include="..\..\lib\src\MainClock.cpp" />
+    <ClCompile Include="..\..\lib\src\NetworkSyncer.cpp" />
     <ClCompile Include="..\..\lib\src\Offset.cpp" />
     <ClCompile Include="..\..\lib\src\RealtimeSorter.cpp" />
     <ClCompile Include="..\..\lib\src\SyncedClock.cpp" />

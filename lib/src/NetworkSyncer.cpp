@@ -19,22 +19,37 @@ This file is part of Falcon Time.
     along with Falcon Time.  If not, see <http://www.gnu.org/licenses/>.
 ************************************************************************/
 
-#include "LibraryConnection.h"
-#include "SyncedClock.h"
+#include "NetworkSyncer.h"
+#include "HighprefClock.h"
 #include "MainClock.h"
 #include "Offset.h"
 
 using namespace FalconTime;
 
-LibraryConnection::LibraryConnection(SyncedClock* clock)
-{
-    _offset = clock->get_offset();
-    _local_clock = clock->get_local_clock();
+NetworkSyncer::NetworkSyncer(Offset* offset, MainClock* local_clock, LibraryConnection* conn){
+    _offset = offset;
+    _local_clock = local_clock;
+    _conn = conn;
+    _update_algorithm = RAW_VALUE;
 }
 
-LibraryConnection::LibraryConnection(SyncedClock* clock, 
-            std::string server_address, unsigned int port)
-{
-    _offset = clock->get_offset();
-    _local_clock = clock->get_local_clock();
+void NetworkSyncer::process_response(time_response_message m){
+    highpref_time remote_time;
+    remote_time.seconds = m.seconds;
+    remote_time.nanoseconds = m.nanoseconds;
+
+    uint64_t remote_ns = highpref_time_to_nanoseconds(remote_time);
+    uint64_t local_ns = _local_clock->nanoseconds();
+    
+    // TODO: Add different algorithms to update here
+    switch(_update_algorithm){
+    case HALF_ROUND_TRIP:
+        remote_ns = (remote_ns - _send_time) / 2;
+        _offset->set_offset(local_ns - remote_ns)
+        break;
+    case RAW_VALUE:
+    default:
+        _offset->set_offset(local_ns - remote_ns);    
+    }
+    
 }
