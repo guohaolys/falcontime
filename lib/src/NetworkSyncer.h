@@ -23,6 +23,7 @@ This file is part of Falcon Time.
 #define _NetworkSyncer_h_
 
 #include "base_messages.h"
+#include <boost/cstdint.hpp>
 
 namespace FalconTime{
     enum UPDATE_ALGORITHM{

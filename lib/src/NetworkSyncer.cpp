@@ -45,7 +45,7 @@ void NetworkSyncer::process_response(time_response_message m){
     switch(_update_algorithm){
     case HALF_ROUND_TRIP:
         remote_ns = (remote_ns - _send_time) / 2;
-        _offset->set_offset(local_ns - remote_ns)
+        _offset->set_offset(local_ns - remote_ns);
         break;
     case RAW_VALUE:
     default:
