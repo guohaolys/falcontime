@@ -45,7 +45,7 @@ void RealtimeSorter::receive(unsigned char* buffer, unsigned int buffer_length){
 void RealtimeSorter::request(unsigned char* buffer, unsigned int buffer_length){
     assert(buffer_length == 8);
     time_request_message* m = reinterpret_cast<time_request_message*>(buffer);
-    BOOST_FOREACH(time_request_callback handler, _request_handlers){
+    BOOST_FOREACH(boost::function<void (time_request_message)> handler, _request_handlers){
         handler(*m);
     }
 }
@@ -53,7 +53,14 @@ void RealtimeSorter::request(unsigned char* buffer, unsigned int buffer_length){
 void RealtimeSorter::response(unsigned char* buffer, unsigned int buffer_length){
     assert(buffer_length == 16);
     time_response_message* m = reinterpret_cast<time_response_message*>(buffer);
-    BOOST_FOREACH(time_response_callback handler, _response_handlers){
+    BOOST_FOREACH(boost::function<void (time_response_message)> handler, _response_handlers){
         handler(*m);
     }
+}
+
+void RealtimeSorter::time_request_handler(boost::function<void (time_request_message)> handler){
+    _request_handlers.push_back(handler);
+}
+void RealtimeSorter::time_response_handler(boost::function<void (time_response_message)> handler){
+    _response_handlers.push_back(handler);
 }

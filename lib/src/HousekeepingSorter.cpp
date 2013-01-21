@@ -20,4 +20,73 @@ This file is part of Falcon Time.
 ************************************************************************/
 
 #include "HousekeepingSorter.h"
+#include <boost/foreach.hpp>
+#include <assert.h>
+
 using namespace FalconTime;
+
+void HousekeepingSorter::receive(unsigned char* buffer, unsigned int buffer_length){
+    assert(buffer_length >= 8);
+    unsigned int* int_buffer = reinterpret_cast<unsigned int*>(buffer); 
+    unsigned int length = int_buffer[0];
+    assert(length == buffer_length);
+    unsigned int message_id = int_buffer[1];
+
+    switch(message_id){
+    case 50:
+        this->startup(buffer, buffer_length);
+        break;
+    case 51:
+        this->activate(buffer, buffer_length);
+        break;
+    case 52:
+        this->timezone(buffer, buffer_length);
+        break;
+    case 53:
+        this->offset_algorithm(buffer, buffer_length);
+        break;
+    default:
+        break;
+    }
+}
+void HousekeepingSorter::startup(unsigned char* buffer, unsigned int buffer_length){
+    assert(buffer_length == 12);
+    startup_message* m = reinterpret_cast<startup_message*>(buffer);
+    BOOST_FOREACH(boost::function<void (startup_message)> handler, _startup_handlers){
+        handler(*m);
+    }
+}
+void HousekeepingSorter::activate(unsigned char* buffer, unsigned int buffer_length){
+    assert(buffer_length == 108);
+    activate_message* m = reinterpret_cast<activate_message*>(buffer);
+    BOOST_FOREACH(boost::function<void (activate_message)> handler, _activate_handlers){
+        handler(*m);
+    }
+}
+void HousekeepingSorter::timezone(unsigned char* buffer, unsigned int buffer_length){
+    assert(buffer_length == 12);
+    timezone_offset* m = reinterpret_cast<timezone_offset*>(buffer);
+    BOOST_FOREACH(boost::function<void (timezone_offset)> handler, _timezone_handlers){
+        handler(*m);
+    }
+}
+void HousekeepingSorter::offset_algorithm(unsigned char* buffer, unsigned int buffer_length){
+    assert(buffer_length == 116);
+    offset_update_algorithm* m = reinterpret_cast<offset_update_algorithm*>(buffer);
+    BOOST_FOREACH(boost::function<void (offset_update_algorithm)> handler, _offset_algorithm_handlers){
+        handler(*m);
+    }
+}
+
+void HousekeepingSorter::startup_message_handler(boost::function<void (startup_message)> handler){
+    _startup_handlers.push_back(handler);
+}
+void HousekeepingSorter::activate_message_handler(boost::function<void (activate_message)> handler){
+    _activate_handlers.push_back(handler);
+}
+void HousekeepingSorter::timezone_offset_handler(boost::function<void (timezone_offset)> handler){
+    _timezone_handlers.push_back(handler);
+}
+void HousekeepingSorter::offset_update_algorithm_handler(boost::function<void (offset_update_algorithm)> handler){
+    _offset_algorithm_handlers.push_back(handler);
+}

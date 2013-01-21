@@ -23,15 +23,29 @@ This file is part of Falcon Time.
 #define _HousekeepingSorter_h_
 
 #include "base_messages.h"
+#include <boost/function.hpp>
+#include <list>
 
 namespace FalconTime{
     class HousekeepingSorter{
     public:
-        void Receive(unsigned char* buffer, unsigned int buffer_length);
-    
+        void receive(unsigned char* buffer, unsigned int buffer_length);
+
+        void startup_message_handler(boost::function<void (startup_message)> handler);
+        void activate_message_handler(boost::function<void (activate_message)> handler);
+        void timezone_offset_handler(boost::function<void (timezone_offset)> handler);
+        void offset_update_algorithm_handler(boost::function<void (offset_update_algorithm)> handler);
+
     private:
-      
-    
+        void startup(unsigned char* buffer, unsigned int buffer_length);
+        void activate(unsigned char* buffer, unsigned int buffer_length);
+        void timezone(unsigned char* buffer, unsigned int buffer_length);
+        void offset_algorithm(unsigned char* buffer, unsigned int buffer_length);
+
+        std::list<boost::function<void (startup_message)> > _startup_handlers;
+        std::list<boost::function<void (activate_message)> > _activate_handlers;      
+        std::list<boost::function<void (timezone_offset)> > _timezone_handlers;
+        std::list<boost::function<void (offset_update_algorithm)> > _offset_algorithm_handlers;      
     };
 };
 #endif // _HousekeepingSorter_h_

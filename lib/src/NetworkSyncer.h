@@ -38,6 +38,8 @@ namespace FalconTime{
     public:
         NetworkSyncer(Offset* offset, MainClock* local_clock, LibraryConnection* conn);
         
+        // Creates a thread that will sync automaically (default every 1s)
+        void enable_auto_sync(uint64_t wait_ns = 1000000000); 
         void sync();
         void process_response(time_response_message m);
 

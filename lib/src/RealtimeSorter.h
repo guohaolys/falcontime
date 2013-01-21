@@ -23,25 +23,23 @@ This file is part of Falcon Time.
 #define _RealtimeSorter_h_
 
 #include "base_messages.h"
+#include <boost/function.hpp>
 #include <list>
 
 namespace FalconTime{
-
-    typedef void (*time_request_callback)(time_request_message);
-    typedef void (*time_response_callback)(time_response_message);
 
     class RealtimeSorter{
     public:
         void receive(unsigned char* buffer, unsigned int buffer_length);
     
-        void time_request_handler(time_request_callback handler);
-        void time_response_handler(time_response_callback handler);
+        void time_request_handler(boost::function<void (time_request_message)> handler);
+        void time_response_handler(boost::function<void (time_response_message)> handler);
     private:
         void request(unsigned char* buffer, unsigned int buffer_length);
         void response(unsigned char* buffer, unsigned int buffer_length);
 
-        std::list<time_request_callback> _request_handlers;
-        std::list<time_response_callback> _response_handlers;
+        std::list<boost::function<void (time_request_message)> > _request_handlers;
+        std::list<boost::function<void (time_response_message)> > _response_handlers;
     };
 };
 #endif // _RealtimeSorter_h_

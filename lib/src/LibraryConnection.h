@@ -21,6 +21,7 @@ This file is part of Falcon Time.
 #ifndef _LibraryConnection_h_
 #define _LibraryConnection_h_
 
+#include "base_messages.h"
 #include <string>
 
 namespace FalconTime{
@@ -42,7 +43,8 @@ namespace FalconTime{
 
         void send_udp(void* msg, std::size_t size);
         void send_tcp(void* msg, std::size_t size);
-
+        
+        void process_activate_message(activate_message m);
     private:
         Offset* _offset;
         MainClock* _local_clock;
@@ -50,6 +52,7 @@ namespace FalconTime{
         HousekeepingSorter* _housekeeping;
         NetworkSyncer* _network_syncer;
         unsigned int _client_id;
+        bool _activated;
     };
 };
 #endif //_LibraryConnection_h_
