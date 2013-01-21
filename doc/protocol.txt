@@ -72,7 +72,7 @@ signed int offset_seconds -> number of seconds offset from UTC, usually a multip
 Offset Update Algorithm (server -> client)
 unsigned int message_size ->
 unsigned int message_id -> 53
-unsigned char[100] -> Algorithm string RAW_VALUE, HALF_ROUND_TRIP, SMOOTH_ONE_SEC, ????
+unsigned char[100] algorithm -> Algorithm string RAW_VALUE, HALF_ROUND_TRIP, SMOOTH_ONE_SEC, ????
 unsigned int ignore_below -> Ignore changes below this many nanoseconds
 unsigned int rate -> Only used for appropriate algorithm
 
