@@ -26,6 +26,8 @@ This file is part of Falcon Time.
 #include "NetworkSyncer.h"
 #include "RealtimeSorter.h"
 #include "HousekeepingSorter.h"
+#include "TcpConnection.h"
+#include "UdpConnection.h"
 #include <boost/bind.hpp>
 #include <boost/thread.hpp>
 #include <boost/date_time.hpp>
@@ -56,7 +58,9 @@ LibraryConnection::LibraryConnection(SyncedClock* clock,
     _housekeeping->activate_message_handler(boost::bind(
         &LibraryConnection::process_activate_message, this, _1));
 
-    //TODO Start network services
+    //Start network services
+    _tcp_conn = new TcpConnection(server_address, port, _housekeeping);
+    _udp_conn = new UdpConnection(server_address, port, _realtime);
 
     // Activate the node
     _activated = false;
@@ -78,4 +82,11 @@ void LibraryConnection::process_activate_message(activate_message m){
     std::string start_time = reinterpret_cast<const char*>(m.time_string);
     _offset->set_start(start_time);
     _activated = true;
+}
+
+void LibraryConnection::send_tcp(void* msg, std::size_t size){
+    _tcp_conn->send(msg, size);
+}
+void LibraryConnection::send_udp(void* msg, std::size_t size){
+    _udp_conn->send(msg, size);
 }

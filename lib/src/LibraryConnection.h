@@ -31,6 +31,8 @@ namespace FalconTime{
     class RealtimeSorter;
     class HousekeepingSorter;
     class NetworkSyncer;
+    class TcpConnection;
+    class UdpConnection;
 
     class LibraryConnection{
     public:
@@ -46,14 +48,13 @@ namespace FalconTime{
         
         void process_activate_message(activate_message m);
     private:
-        void tcp_loop();
-        void upd_loop();
-
         Offset* _offset;
         MainClock* _local_clock;
         RealtimeSorter* _realtime;
         HousekeepingSorter* _housekeeping;
         NetworkSyncer* _network_syncer;
+        TcpConnection* _tcp_conn;
+        UdpConnection* _udp_conn;
         unsigned int _client_id;
         bool _activated;
     };

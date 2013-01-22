@@ -32,14 +32,27 @@ int enable_falcon_time(){
 }
 int enable_falcon_time_as_client(char* server_address, 
                                  unsigned short server_port = 10320){
-    std::string address = server_address;
+    std::string address(server_address);
     api = new Api(address, server_port);
     return 0;
 }
 void get_start(char* start){
+/*
+#if defined(_MSC_VER) && _MSC_VER >= 1400
+#pragma warning(push)
+#pragma warning(disable:4996)
+#endif
+
     std::string s = api->start();
     std::copy(s.begin(), s.end(), start);
     start[s.size()] = '\0'; // Need to null terminate
+
+#if defined(_MSC_VER) && _MSC_VER >= 1400
+#pragma warning(pop)
+#endif
+*/
+    std::string s = api->start();
+    memcpy(start, s.c_str(), s.size()); //TODO Verify with debugger that this is correct!
     return;
 }
 highpref_time get_time(){

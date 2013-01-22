@@ -32,7 +32,7 @@ namespace FalconTime{
         TcpConnection(std::string host, unsigned short port, HousekeepingSorter* sorter);
         ~TcpConnection();
 
-        void send(char*, std::size_t);
+        void send(void* message, std::size_t size);
     private:
         HousekeepingSorter* _sorter;
         void io_loop();
