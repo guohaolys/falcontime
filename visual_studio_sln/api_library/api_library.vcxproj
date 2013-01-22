@@ -22,6 +22,8 @@
     <ClInclude Include="..\..\lib\src\Offset.h" />
     <ClInclude Include="..\..\lib\src\RealtimeSorter.h" />
     <ClInclude Include="..\..\lib\src\SyncedClock.h" />
+    <ClInclude Include="..\..\lib\src\TcpConnection.h" />
+    <ClInclude Include="..\..\lib\src\UdpConnection.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\lib\src\Api.cpp" />
@@ -33,6 +35,8 @@
     <ClCompile Include="..\..\lib\src\Offset.cpp" />
     <ClCompile Include="..\..\lib\src\RealtimeSorter.cpp" />
     <ClCompile Include="..\..\lib\src\SyncedClock.cpp" />
+    <ClCompile Include="..\..\lib\src\TcpConnection.cpp" />
+    <ClCompile Include="..\..\lib\src\UdpConnection.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BC5BE20B-0524-42B2-9D13-B85823FFD138}</ProjectGuid>

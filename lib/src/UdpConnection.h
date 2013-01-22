@@ -18,44 +18,25 @@ This file is part of Falcon Time.
     You should have received a copy of the GNU General Public License
     along with Falcon Time.  If not, see <http://www.gnu.org/licenses/>.
 ************************************************************************/
-#ifndef _LibraryConnection_h_
-#define _LibraryConnection_h_
 
-#include "base_messages.h"
+#ifndef _UdpConnection_h_
+#define _UdpConnection_h_
+
+#include <cstddef>
 #include <string>
 
 namespace FalconTime{
-    class SyncedClock;
-    class Offset;
-    class MainClock;
     class RealtimeSorter;
-    class HousekeepingSorter;
-    class NetworkSyncer;
-
-    class LibraryConnection{
+    class UdpConnection{
     public:
-        LibraryConnection(SyncedClock* clock);
-        LibraryConnection(SyncedClock* clock, 
-            std::string server_address, unsigned int port);
-        LibraryConnection();
+        UdpConnection(std::string host, unsigned short port, RealtimeSorter* sorter);
+        ~UdpConnection();
 
-        unsigned get_client_id();
-
-        void send_udp(void* msg, std::size_t size);
-        void send_tcp(void* msg, std::size_t size);
-        
-        void process_activate_message(activate_message m);
+        void send(char*, std::size_t);
     private:
-        void tcp_loop();
-        void upd_loop();
+        RealtimeSorter* _sorter;
+        void io_loop();
 
-        Offset* _offset;
-        MainClock* _local_clock;
-        RealtimeSorter* _realtime;
-        HousekeepingSorter* _housekeeping;
-        NetworkSyncer* _network_syncer;
-        unsigned int _client_id;
-        bool _activated;
     };
 };
-#endif //_LibraryConnection_h_
+#endif //_UdpConnection_h_
