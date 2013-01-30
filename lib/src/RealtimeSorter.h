@@ -30,7 +30,7 @@ namespace FalconTime{
 
     class RealtimeSorter{
     public:
-        void receive(unsigned char* buffer, unsigned int buffer_length);
+        void receive(void* buffer, size_t buffer_length);
     
         void time_request_handler(boost::function<void (time_request_message)> handler);
         void time_response_handler(boost::function<void (time_response_message)> handler);

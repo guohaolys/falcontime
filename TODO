@@ -16,6 +16,7 @@ Version 2 requirements:
 - System Tests
 
 Future:
+-Hostnames & IP Addresses
 -Timezone Info
 -Update Algorithms
 -Client C++ API

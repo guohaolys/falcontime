@@ -25,17 +25,18 @@ This file is part of Falcon Time.
 
 using namespace FalconTime;
 
-void RealtimeSorter::receive(unsigned char* buffer, unsigned int buffer_length){
+void RealtimeSorter::receive(void* buffer, size_t buffer_length){
     assert(buffer_length >= 4);
     unsigned int* int_buffer = reinterpret_cast<unsigned int*>(buffer); 
+    unsigned char* char_buffer = reinterpret_cast<unsigned char*>(buffer);
     unsigned int message_id = int_buffer[0];
 
     switch(message_id){
     case 1:
-        this->request(buffer, buffer_length);
+        this->request(char_buffer, buffer_length);
         break;
     case 2:
-        this->response(buffer, buffer_length);
+        this->response(char_buffer, buffer_length);
         break;
     default:
         break;

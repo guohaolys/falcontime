@@ -25,25 +25,26 @@ This file is part of Falcon Time.
 
 using namespace FalconTime;
 
-void HousekeepingSorter::receive(unsigned char* buffer, unsigned int buffer_length){
+void HousekeepingSorter::receive(void* buffer, size_t buffer_length){
     assert(buffer_length >= 8);
     unsigned int* int_buffer = reinterpret_cast<unsigned int*>(buffer); 
+    unsigned char* char_buffer = reinterpret_cast<unsigned char*>(buffer);
     unsigned int length = int_buffer[0];
     assert(length == buffer_length);
     unsigned int message_id = int_buffer[1];
 
     switch(message_id){
     case 50:
-        this->startup(buffer, buffer_length);
+        this->startup(char_buffer, buffer_length);
         break;
     case 51:
-        this->activate(buffer, buffer_length);
+        this->activate(char_buffer, buffer_length);
         break;
     case 52:
-        this->timezone(buffer, buffer_length);
+        this->timezone(char_buffer, buffer_length);
         break;
     case 53:
-        this->offset_algorithm(buffer, buffer_length);
+        this->offset_algorithm(char_buffer, buffer_length);
         break;
     default:
         break;

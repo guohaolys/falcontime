@@ -18,4 +18,41 @@ This file is part of Falcon Time.
     You should have received a copy of the GNU General Public License
     along with Falcon Time.  If not, see <http://www.gnu.org/licenses/>.
 ************************************************************************/
+#include "UdpConnection.h"
+#include "RealtimeSorter.h"
+#include <boost/bind.hpp>
 
+using namespace FalconTime;
+using namespace boost::asio::ip;
+
+UdpConnection::UdpConnection(std::string host, unsigned short port, RealtimeSorter* sorter){
+    _sorter = sorter;
+    _rcv_buf = new unsigned char[_max_buf_size];
+
+    _socket = new udp::socket(_io_service, udp::v4());
+    _host = udp::endpoint(address_v4::from_string(host), port);
+
+    _socket->connect(_host);
+    this->start_receive();
+
+    _io_thread = new boost::thread(boost::bind(&boost::asio::io_service::run, &_io_service));
+}
+UdpConnection::~UdpConnection()
+{
+    delete [] _rcv_buf;
+    delete _io_thread;
+    delete _socket;
+}
+void UdpConnection::start_receive(){
+    _socket->async_receive(boost::asio::buffer(_rcv_buf,_max_buf_size),  
+        boost::bind(&UdpConnection::receive, this, boost::asio::placeholders::error,
+        boost::asio::placeholders::bytes_transferred));
+}
+void UdpConnection::receive(const boost::system::error_code& error, std::size_t bytes){
+    _sorter->receive(_rcv_buf, bytes);
+
+    this->start_receive();
+}
+void UdpConnection::send(void* buffer, size_t size){
+    _socket->send(boost::asio::buffer(buffer, size));
+}

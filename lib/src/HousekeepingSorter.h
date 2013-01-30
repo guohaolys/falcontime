@@ -29,7 +29,7 @@ This file is part of Falcon Time.
 namespace FalconTime{
     class HousekeepingSorter{
     public:
-        void receive(unsigned char* buffer, unsigned int buffer_length);
+        void receive(void* buffer, size_t buffer_length);
 
         void startup_message_handler(boost::function<void (startup_message)> handler);
         void activate_message_handler(boost::function<void (activate_message)> handler);

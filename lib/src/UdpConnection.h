@@ -22,6 +22,8 @@ This file is part of Falcon Time.
 #ifndef _UdpConnection_h_
 #define _UdpConnection_h_
 
+#include <boost/asio.hpp>
+#include <boost/thread.hpp>
 #include <cstddef>
 #include <string>
 
@@ -29,14 +31,24 @@ namespace FalconTime{
     class RealtimeSorter;
     class UdpConnection{
     public:
+        // Use in the server
+        UdpConnection(boost::asio::ip::udp::socket* socket, RealtimeSorter);
+        // Use in the client
         UdpConnection(std::string host, unsigned short port, RealtimeSorter* sorter);
         ~UdpConnection();
 
         void send(void* message, std::size_t size);
     private:
         RealtimeSorter* _sorter;
-        void io_loop();
+        void start_receive();
+        void receive(const boost::system::error_code& error, std::size_t bytes);
 
+        boost::thread* _io_thread;
+        boost::asio::io_service _io_service;
+        boost::asio::ip::udp::endpoint _host;
+        boost::asio::ip::udp::socket* _socket;
+        static const size_t _max_buf_size = 4096;
+        unsigned char* _rcv_buf;
     };
 };
 #endif //_UdpConnection_h_
