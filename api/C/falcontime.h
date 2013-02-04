@@ -5,10 +5,12 @@
 /************************************************************************ 
 This file is part of Falcon Time.
 
-    Falcon Time is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Lesser General Public License as 
-    published by the Free Software Foundation, either version 3 of the 
-    License, or (at your option) any later version.
+Unlike the rest of the files that make up Falcon Time, this file is not
+part of the LGPL license. You are free to use this file as you see fit.
+In addition, this file defines the interface to which external software
+can and should be linked. If this interface is used, any software using 
+it WILL NOT be subjected to the terms of the GNU Lesser General Public 
+License.
 
     Falcon Time is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
