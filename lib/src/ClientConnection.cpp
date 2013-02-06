@@ -20,3 +20,7 @@ This file is part of Falcon Time.
 ************************************************************************/
 #include "ClientConnection.h"
 using namespace FalconTime;
+
+void ClientConnection::update(uint64_t send_time){
+    _last_send = send_time;
+}

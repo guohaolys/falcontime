@@ -31,6 +31,7 @@ namespace FalconTime{
         ClientConnection(TcpConnection* tcp_conn, unsigned int id);
 
         unsigned int get_id(){return _id;}
+        void update(uint64_t send_time);
     private:
         unsigned int _id;
         TcpConnection* _tcp_conn;

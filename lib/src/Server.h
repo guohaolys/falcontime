@@ -23,6 +23,7 @@ This file is part of Falcon Time.
 
 #include "base_messages.h"
 #include <boost/unordered_map.hpp>
+#include <boost/asio/ip/udp.hpp>
 
 namespace FalconTime{
     class MainClock;
@@ -37,7 +38,7 @@ namespace FalconTime{
         ~Server();
 
         void process_startup_message(startup_message m);
-        void process_time_request(time_request_message m);
+        void process_time_request(time_request_message m, boost::asio::ip::udp::endpoint from);
     private:
         boost::unordered_map<unsigned int, ClientConnection*> _client_list;
         MainClock* _clock;

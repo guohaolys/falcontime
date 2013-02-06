@@ -16,7 +16,7 @@ Version 2 requirements:
 - System Tests
 
 Future:
--Hostnames & IP Addresses
+-Hostnames in addition to IP Addresses
 -Timezone Info
 -Update Algorithms
 -Client C++ API
@@ -26,3 +26,5 @@ Future:
 -Daemon support simulated time groups
 -Support PTP for communication protocol
 -TLS/signed UDP 
+-Evalualate making two threads in the UdpConnection, so that one can be blocked 
+in the receive callback and another can send a response.

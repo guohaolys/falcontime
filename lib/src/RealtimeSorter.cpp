@@ -33,7 +33,7 @@ void RealtimeSorter::receive(void* buffer, size_t buffer_length, boost::asio::ip
 
     switch(message_id){
     case 1:
-        this->request(char_buffer, buffer_length);
+        this->request(char_buffer, buffer_length, from);
         break;
     case 2:
         this->response(char_buffer, buffer_length);
@@ -43,11 +43,11 @@ void RealtimeSorter::receive(void* buffer, size_t buffer_length, boost::asio::ip
     }
 }
 
-void RealtimeSorter::request(unsigned char* buffer, unsigned int buffer_length){
+void RealtimeSorter::request(unsigned char* buffer, unsigned int buffer_length, boost::asio::ip::udp::endpoint from){
     assert(buffer_length == 8);
     time_request_message* m = reinterpret_cast<time_request_message*>(buffer);
-    BOOST_FOREACH(boost::function<void (time_request_message)> handler, _request_handlers){
-        handler(*m);
+    BOOST_FOREACH(boost::function<void (time_request_message, boost::asio::ip::udp::endpoint)> handler, _request_handlers){
+        handler(*m, from);
     }
 }
 
@@ -59,7 +59,7 @@ void RealtimeSorter::response(unsigned char* buffer, unsigned int buffer_length)
     }
 }
 
-void RealtimeSorter::time_request_handler(boost::function<void (time_request_message)> handler){
+void RealtimeSorter::time_request_handler(boost::function<void (time_request_message, boost::asio::ip::udp::endpoint)> handler){
     _request_handlers.push_back(handler);
 }
 void RealtimeSorter::time_response_handler(boost::function<void (time_response_message)> handler){

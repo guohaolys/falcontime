@@ -33,13 +33,13 @@ namespace FalconTime{
     public:
         void receive(void* buffer, size_t buffer_length, boost::asio::ip::udp::endpoint from);
     
-        void time_request_handler(boost::function<void (time_request_message)> handler);
+        void time_request_handler(boost::function<void (time_request_message, boost::asio::ip::udp::endpoint)> handler);
         void time_response_handler(boost::function<void (time_response_message)> handler);
     private:
-        void request(unsigned char* buffer, unsigned int buffer_length);
+        void request(unsigned char* buffer, unsigned int buffer_length, boost::asio::ip::udp::endpoint from);
         void response(unsigned char* buffer, unsigned int buffer_length);
 
-        std::list<boost::function<void (time_request_message)> > _request_handlers;
+        std::list<boost::function<void (time_request_message, boost::asio::ip::udp::endpoint)> > _request_handlers;
         std::list<boost::function<void (time_response_message)> > _response_handlers;
     };
 };
