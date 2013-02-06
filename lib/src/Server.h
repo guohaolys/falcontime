@@ -21,17 +21,30 @@ This file is part of Falcon Time.
 #ifndef _Server_h_
 #define _Server_h_
 
+#include "base_messages.h"
 #include <boost/unordered_map.hpp>
 
 namespace FalconTime{
     class MainClock;
     class ClientConnection;
+    class UdpConnection;
+    class RealtimeSorter;
+    class HousekeepingSorter;
 
     class Server{
     public:
+        Server(unsigned short port=10320);
+        ~Server();
+
+        void process_startup_message(startup_message m);
+        void process_time_request(time_request_message m);
     private:
         boost::unordered_map<unsigned int, ClientConnection*> _client_list;
         MainClock* _clock;
+        UdpConnection* _udp_conn;
+        RealtimeSorter* _realtime;
+        HousekeepingSorter* _housekeeping;
+
     };
 };
 

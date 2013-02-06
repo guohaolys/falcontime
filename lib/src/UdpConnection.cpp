@@ -25,6 +25,18 @@ This file is part of Falcon Time.
 using namespace FalconTime;
 using namespace boost::asio::ip;
 
+UdpConnection::UdpConnection(unsigned short port, RealtimeSorter* sorter){
+    _sorter = sorter;
+    _rcv_buf = new unsigned char[_max_buf_size];
+
+    _server = true;
+    _socket = new udp::socket(_io_service, udp::v4(), port);
+
+    this->start_receive();
+
+    _io_thread = new boost::thread(boost::bind(&boost::asio::io_service::run, &_io_service));
+}
+
 UdpConnection::UdpConnection(std::string host, unsigned short port, RealtimeSorter* sorter){
     _sorter = sorter;
     _rcv_buf = new unsigned char[_max_buf_size];
@@ -41,10 +53,8 @@ UdpConnection::UdpConnection(std::string host, unsigned short port, RealtimeSort
 UdpConnection::~UdpConnection()
 {
     delete [] _rcv_buf;
-    if(!_server){
-        delete _io_thread;
-        delete _socket;
-    }
+    delete _io_thread;
+    delete _socket;
 }
 void UdpConnection::start_receive(){
     _socket->async_receive_from(boost::asio::buffer(_rcv_buf,_max_buf_size), _received_from,
@@ -58,4 +68,8 @@ void UdpConnection::receive(const boost::system::error_code& error, std::size_t 
 }
 void UdpConnection::send(void* buffer, size_t size){
     _socket->send(boost::asio::buffer(buffer, size));
+}
+
+void UdpConnection::send(void* buffer, size_t size, boost::asio::ip::udp::endpoint to){
+    _socket->send_to(boost::asio::buffer(buffer, size), to);
 }

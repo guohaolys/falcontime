@@ -22,13 +22,19 @@ This file is part of Falcon Time.
 #ifndef _ClientConnection_h_
 #define _ClientConnection_h_
 
+#include <boost/cstdint.hpp>
+
 namespace FalconTime{
     class TcpConnection;
     class ClientConnection{
     public:
+        ClientConnection(TcpConnection* tcp_conn, unsigned int id);
+
+        unsigned int get_id(){return _id;}
     private:
         unsigned int _id;
         TcpConnection* _tcp_conn;
+        uint64_t _last_send;
     };
 };
 

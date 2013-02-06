@@ -32,12 +32,13 @@ namespace FalconTime{
     class UdpConnection{
     public:
         // Use in the server
-        UdpConnection(boost::asio::ip::udp::socket* socket, RealtimeSorter* sorter);
+        UdpConnection(unsigned short port, RealtimeSorter* sorter);
         // Use in the client
         UdpConnection(std::string host, unsigned short port, RealtimeSorter* sorter);
         ~UdpConnection();
 
         void send(void* message, std::size_t size);
+        void send(void* message, std::size_t size, boost::asio::ip::udp::endpoint to);
     private:
         RealtimeSorter* _sorter;
         void start_receive();

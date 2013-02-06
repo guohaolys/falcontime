@@ -18,4 +18,29 @@ This file is part of Falcon Time.
     You should have received a copy of the GNU General Public License
     along with Falcon Time.  If not, see <http://www.gnu.org/licenses/>.
 ************************************************************************/
+#include "Server.h"
+#include "MainClock.h"
+#include "UdpConnection.h"
+#include "TcpConnection.h"
+#include "RealtimeSorter.h"
+#include "HousekeepingSorter.h"
+#include <boost/bind.hpp>
 
+using namespace FalconTime;
+
+Server::Server(unsigned short port){
+    _clock = new MainClock();
+
+    _realtime = new RealtimeSorter();
+    _realtime->time_request_handler(boost::bind(
+        &Server::process_time_request, this, _1));
+
+    _housekeeping = new HousekeepingSorter();
+    _housekeeping->startup_message_handler(boost::bind(
+        &Server::process_startup_message, this, _1));
+
+    _udp_conn = new UdpConnection(port, _realtime);
+}
+
+Server::~Server(){
+}
