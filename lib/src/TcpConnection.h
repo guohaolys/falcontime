@@ -43,6 +43,7 @@ namespace FalconTime{
 
         boost::thread* _io_thread;
         boost::asio::io_service _io_service;
+        bool _server;
         boost::asio::ip::tcp::endpoint _host;
         boost::asio::ip::tcp::socket* _socket;
         static const size_t _max_buf_size = 1048576; //1MB

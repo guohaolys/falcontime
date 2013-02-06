@@ -25,7 +25,7 @@ This file is part of Falcon Time.
 
 using namespace FalconTime;
 
-void RealtimeSorter::receive(void* buffer, size_t buffer_length){
+void RealtimeSorter::receive(void* buffer, size_t buffer_length, boost::asio::ip::udp::endpoint from){
     assert(buffer_length >= 4);
     unsigned int* int_buffer = reinterpret_cast<unsigned int*>(buffer); 
     unsigned char* char_buffer = reinterpret_cast<unsigned char*>(buffer);

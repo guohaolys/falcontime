@@ -45,6 +45,7 @@ namespace FalconTime{
 
         boost::thread* _io_thread;
         boost::asio::io_service _io_service;
+        bool _server;
         boost::asio::ip::udp::endpoint _host;
         boost::asio::ip::udp::socket* _socket;
         boost::asio::ip::udp::endpoint _received_from;

@@ -29,6 +29,7 @@ UdpConnection::UdpConnection(std::string host, unsigned short port, RealtimeSort
     _sorter = sorter;
     _rcv_buf = new unsigned char[_max_buf_size];
 
+    _server = false;
     _socket = new udp::socket(_io_service, udp::v4());
     _host = udp::endpoint(address_v4::from_string(host), port);
 
@@ -40,11 +41,13 @@ UdpConnection::UdpConnection(std::string host, unsigned short port, RealtimeSort
 UdpConnection::~UdpConnection()
 {
     delete [] _rcv_buf;
-    delete _io_thread;
-    delete _socket;
+    if(!_server){
+        delete _io_thread;
+        delete _socket;
+    }
 }
 void UdpConnection::start_receive(){
-    _socket->async_receive_from(boost::asio::buffer(_rcv_buf,_max_buf_size), &_received_from,
+    _socket->async_receive_from(boost::asio::buffer(_rcv_buf,_max_buf_size), _received_from,
         boost::bind(&UdpConnection::receive, this, boost::asio::placeholders::error,
         boost::asio::placeholders::bytes_transferred));
 }
