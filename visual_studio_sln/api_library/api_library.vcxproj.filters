@@ -57,6 +57,12 @@
     <ClInclude Include="..\..\lib\src\UdpConnection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\lib\src\Server.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lib\src\ClientConnection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\lib\src\HighprefClock.cpp">
@@ -90,6 +96,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\lib\src\UdpConnection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\src\Server.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lib\src\ClientConnection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

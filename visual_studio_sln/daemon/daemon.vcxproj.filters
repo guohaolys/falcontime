@@ -27,18 +27,12 @@
     <ClCompile Include="..\..\daemon\src\Server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\daemon\src\ClientConnection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\daemon\src\Client.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\daemon\src\Server.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\daemon\src\ClientConnection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

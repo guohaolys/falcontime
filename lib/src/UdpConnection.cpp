@@ -44,12 +44,12 @@ UdpConnection::~UdpConnection()
     delete _socket;
 }
 void UdpConnection::start_receive(){
-    _socket->async_receive(boost::asio::buffer(_rcv_buf,_max_buf_size),  
+    _socket->async_receive_from(boost::asio::buffer(_rcv_buf,_max_buf_size), &_received_from,
         boost::bind(&UdpConnection::receive, this, boost::asio::placeholders::error,
         boost::asio::placeholders::bytes_transferred));
 }
 void UdpConnection::receive(const boost::system::error_code& error, std::size_t bytes){
-    _sorter->receive(_rcv_buf, bytes);
+    _sorter->receive(_rcv_buf, bytes, _received_from);
 
     this->start_receive();
 }

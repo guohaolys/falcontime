@@ -19,28 +19,18 @@ This file is part of Falcon Time.
     along with Falcon Time.  If not, see <http://www.gnu.org/licenses/>.
 ************************************************************************/
 
-#ifndef _RealtimeSorter_h_
-#define _RealtimeSorter_h_
-
-#include "base_messages.h"
-#include <boost/function.hpp>
-#include <boost/asio/ip/udp.hpp>
-#include <list>
+#ifndef _ClientConnection_h_
+#define _ClientConnection_h_
 
 namespace FalconTime{
-
-    class RealtimeSorter{
+    class TcpConnection;
+    class ClientConnection{
     public:
-        void receive(void* buffer, size_t buffer_length, boost::asio::ip::udp::endpoint from);
-    
-        void time_request_handler(boost::function<void (time_request_message)> handler);
-        void time_response_handler(boost::function<void (time_response_message)> handler);
     private:
-        void request(unsigned char* buffer, unsigned int buffer_length);
-        void response(unsigned char* buffer, unsigned int buffer_length);
-
-        std::list<boost::function<void (time_request_message)> > _request_handlers;
-        std::list<boost::function<void (time_response_message)> > _response_handlers;
+        unsigned int _id;
+        TcpConnection* _tcp_conn;
     };
 };
-#endif // _RealtimeSorter_h_
+
+
+#endif // _ClientConnection_h_
