@@ -2,20 +2,22 @@ Version 1 requirements:
 
 Daemon Application
 - Configuration Options
-- TCP Data Server
-- UDP Quick Response Thread (client thread and server thread
 
 Client Library
 - C API
+- Basic clocks
+- TCP Data Server
+- UDP Quick Response
+- Client Demo Application
 
 Version 2 requirements:
 - Half round-trip update algorithm
 - Doxygen documentation
-- Unit Tests
-- Subsystem Tests
-- System Tests
+- Automated Unit Tests
+- Automated Subsystem Tests
 
 Future:
+-Automated System Tests
 -Hostnames in addition to IP Addresses
 -Timezone Info
 -Update Algorithms

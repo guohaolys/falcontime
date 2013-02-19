@@ -26,10 +26,14 @@ This file is part of Falcon Time.
 #include "HousekeepingSorter.h"
 #include "ClientConnection.h"
 #include <boost/bind.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
 
 using namespace FalconTime;
 
-Server::Server(unsigned short port){
+Server::Server(unsigned short port)
+    : _acceptor(_tcp_service, boost::asio::ip::tcp::endpoint(
+    boost::asio::ip::tcp::v4(), port)){
+    _last_id = 1000;
     _clock = new MainClock();
 
     _realtime = new RealtimeSorter();
@@ -37,18 +41,22 @@ Server::Server(unsigned short port){
         &Server::process_time_request, this, _1, _2));
 
     _housekeeping = new HousekeepingSorter();
-    _housekeeping->startup_message_handler(boost::bind(
-        &Server::process_startup_message, this, _1));
 
     _udp_conn = new UdpConnection(port, _realtime);
+
+    start_accept();
+
+    _io_thread = new boost::thread(boost::bind(&boost::asio::io_service::run, &_tcp_service));
 }
 
 Server::~Server(){
+    delete _io_thread;
+    delete _realtime;
+    delete _housekeeping;
+    delete _udp_conn;
+    delete _clock;
 }
 
-void Server::process_startup_message(startup_message m){
-
-}
 void Server::process_time_request(time_request_message m, boost::asio::ip::udp::endpoint from){
     time_response_message r;
     r.message_id = 2;
@@ -61,4 +69,38 @@ void Server::process_time_request(time_request_message m, boost::asio::ip::udp::
     _udp_conn->send(&r, sizeof(time_response_message), from);
 
     _client_list[m.client_id]->update(ns);
+}
+void Server::start_accept()
+{
+    boost::asio::ip::tcp::socket* socket = new boost::asio::ip::tcp::socket(_tcp_service);
+    _acceptor.async_accept(*socket, boost::bind(&Server::handle_accept, this, socket, boost::asio::placeholders::error));
+}
+
+void Server::handle_accept(boost::asio::ip::tcp::socket* socket, const boost::system::error_code& ec){
+    if(!ec)
+    {
+        unsigned int id = get_next_id();
+        TcpConnection* tc = new TcpConnection(socket, _housekeeping);
+        ClientConnection* cc = new ClientConnection(tc, id);
+        _client_list[id] = cc;
+
+        activate_message m;
+        m.message_id = 51;
+        m.message_size = 112;
+        m.client_id = id;
+        std::string ts = boost::posix_time::to_simple_string(_clock->start_time_utc());
+        if(ts.length() < 100){
+            memcpy(&m.time_string, ts.c_str(), ts.length());
+            m.time_string[ts.length()] = '/0';
+        }
+
+        tc->send(&m, m.message_size);
+    }
+
+    this->start_accept();
+}
+
+unsigned int Server::get_next_id(){
+    _last_id++;
+    return _last_id;
 }

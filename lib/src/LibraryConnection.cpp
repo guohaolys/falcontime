@@ -43,6 +43,7 @@ LibraryConnection::LibraryConnection(SyncedClock* clock)
 LibraryConnection::LibraryConnection(SyncedClock* clock, 
             std::string server_address, unsigned int port)
 {
+    _activated = false;
     _offset = clock->get_offset();
     _local_clock = clock->get_local_clock();
 
@@ -62,15 +63,6 @@ LibraryConnection::LibraryConnection(SyncedClock* clock,
     _tcp_conn = new TcpConnection(server_address, port, _housekeeping);
     _udp_conn = new UdpConnection(server_address, port, _realtime);
 
-    // Activate the node
-    _activated = false;
-    startup_message m;
-    m.message_size = 12;
-    m.message_id = 50;
-    m.client_id = 1; //TODO: generate GUID!
-
-    send_tcp(&m, m.message_size);
-
     // Wait untill the callback has received confirmation that its activated.
     boost::posix_time::time_duration timeout = boost::posix_time::millisec(10);
     while(!_activated){
@@ -81,6 +73,7 @@ LibraryConnection::LibraryConnection(SyncedClock* clock,
 void LibraryConnection::process_activate_message(activate_message m){
     std::string start_time = reinterpret_cast<const char*>(m.time_string);
     _offset->set_start(start_time);
+    _client_id = m.client_id;
     _activated = true;
 }
 

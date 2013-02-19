@@ -42,13 +42,23 @@ TcpConnection::TcpConnection(std::string host, unsigned short port, Housekeeping
 
     _io_thread = new boost::thread(boost::bind(&boost::asio::io_service::run, &_io_service));
 }
+TcpConnection::TcpConnection(boost::asio::ip::tcp::socket* socket, HousekeepingSorter* sorter){
+    _sorter = sorter;
+    _rcv_buf = new unsigned char[_max_buf_size];
+    _message_size = reinterpret_cast<unsigned int*>(_rcv_buf);
+    _message_id = reinterpret_cast<unsigned int*>(_rcv_buf + 4);
+
+    _server = false;
+    _socket = socket;
+    this->start_receive();
+}
 TcpConnection::~TcpConnection()
 {
     delete [] _rcv_buf;
     if(!_server){
         delete _io_thread;
-        delete _socket;
     }
+    delete _socket;
 }
 void TcpConnection::start_receive(){
     boost::asio::async_read(*_socket, boost::asio::buffer(_rcv_buf,_msg_header_size),  

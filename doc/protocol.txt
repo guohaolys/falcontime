@@ -54,14 +54,10 @@ These messages are used for all the non-rapid response buisness that needs to be
 unsigned int implies 32-bit big endian number
 double implies ieee double precision floating point number
 
-Startup Message (client -> server)
-unsigned int message_size -> 12
-unsigned int message_id -> 50
-unsigned int client_id -> guid value
-
 Activate Message (server -> client)
 unsigned int message_size -> 108
 unsigned int message_id -> 51
+unsigned int client_id -> guid value
 unsigned char[100] time_string -> time of zero seconds, format: "YYYY-MM-DD HH:MM:SS.DDDDDDDDDDDDDDDDDDDDDDD" (null terminated, UTC value)
 
 Timezone Offset (server -> client)

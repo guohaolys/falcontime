@@ -34,9 +34,6 @@ void HousekeepingSorter::receive(void* buffer, size_t buffer_length){
     unsigned int message_id = int_buffer[1];
 
     switch(message_id){
-    case 50:
-        this->startup(char_buffer, buffer_length);
-        break;
     case 51:
         this->activate(char_buffer, buffer_length);
         break;
@@ -48,13 +45,6 @@ void HousekeepingSorter::receive(void* buffer, size_t buffer_length){
         break;
     default:
         break;
-    }
-}
-void HousekeepingSorter::startup(unsigned char* buffer, unsigned int buffer_length){
-    assert(buffer_length == 12);
-    startup_message* m = reinterpret_cast<startup_message*>(buffer);
-    BOOST_FOREACH(boost::function<void (startup_message)> handler, _startup_handlers){
-        handler(*m);
     }
 }
 void HousekeepingSorter::activate(unsigned char* buffer, unsigned int buffer_length){
@@ -79,9 +69,6 @@ void HousekeepingSorter::offset_algorithm(unsigned char* buffer, unsigned int bu
     }
 }
 
-void HousekeepingSorter::startup_message_handler(boost::function<void (startup_message)> handler){
-    _startup_handlers.push_back(handler);
-}
 void HousekeepingSorter::activate_message_handler(boost::function<void (activate_message)> handler){
     _activate_handlers.push_back(handler);
 }

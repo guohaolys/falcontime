@@ -40,15 +40,10 @@ struct time_response_message{
     unsigned int nanoseconds; /* Since last second rollover */
 };
 
-struct startup_message{
-    unsigned int message_size; /* 12 */
-    unsigned int message_id; /* 50 */
-    unsigned int client_id; /* Generated GUID */
-};
-
 struct activate_message{
-    unsigned int message_size; /* 108 */
+    unsigned int message_size; /* 112 */
     unsigned int message_id; /* 51 */
+    unsigned int client_id; /* Generated GUID */
     /* time of zero seconds, format: "YYYY-MM-DD HH:MM:SS.DDDDDDDDDDDDDDDDDDDDDDD" 
        null terminated, UTC value */
     unsigned char time_string[100]; 
