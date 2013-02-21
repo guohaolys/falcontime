@@ -19,9 +19,11 @@ This file is part of Falcon Time.
     along with Falcon Time.  If not, see <http://www.gnu.org/licenses/>.
 ************************************************************************/
 
-#include "Client.h"
 #include "Server.h"
+#include "HighprefClock.h"
+#include "falcontime.h"
 #include <boost/program_options.hpp>
+#include <boost/thread/thread.hpp>
 #include <iostream>
 #include <string>
 
@@ -59,11 +61,31 @@ int falcon_main(int argc, char* argv[])
     }
 
     if(server){
-        Server* s = new Server();
-        s->StartServer(port);
+        Server* s = new Server(port);
+        std::cout << "Service started on port: " << port << std::endl;
+        while(true){
+            boost::this_thread::sleep_for(boost::chrono::milliseconds(1000));
+        }
+        
     }else{
-        Client* c = new Client();
-        c->StartClient(server_address, port);
+        if(enable_falcon_time_as_client(server_address.c_str(), port) == 0){
+            char start[100];
+            get_start(start);
+            std::cout << "Start time: " << start << std::endl;
+
+            HighprefClock* c = new HighprefClock();
+            uint64_t local_ns;
+            uint64_t test_ns;
+            int step = 0;
+
+            while(true){
+                local_ns = c->nanoseconds();
+                test_ns = highpref_time_to_nanoseconds(get_time());
+                int64_t diff_ns = local_ns - test_ns;
+                std::cout << "difference at step " << step << ": " << diff_ns << std::endl;
+                boost::this_thread::sleep_for(boost::chrono::milliseconds(10000));
+            }
+        }
     }
     return 0;
 }

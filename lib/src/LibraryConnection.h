@@ -41,7 +41,7 @@ namespace FalconTime{
             std::string server_address, unsigned int port);
         LibraryConnection();
 
-        unsigned get_client_id();
+        unsigned get_client_id() {return _client_id;}
 
         void send_udp(void* msg, std::size_t size);
         void send_tcp(void* msg, std::size_t size);

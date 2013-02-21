@@ -30,8 +30,8 @@ int enable_falcon_time(){
     api = new Api();
     return 0;
 }
-int enable_falcon_time_as_client(char* server_address, 
-                                 unsigned short server_port = 10320){
+int enable_falcon_time_as_client(const char* server_address, 
+                                 unsigned short server_port){
     std::string address(server_address);
     api = new Api(address, server_port);
     return 0;

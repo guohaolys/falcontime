@@ -30,6 +30,8 @@ Offset::Offset(){
     _offset = 0;
     _start = "0000-00-00 00:00:00.000000000";
 }
+Offset::~Offset(){
+}
 
 void Offset::set_offset(int64_t value){
     _offset = value;

@@ -21,6 +21,11 @@ This file is part of Falcon Time.
 #include "ClientConnection.h"
 using namespace FalconTime;
 
+ClientConnection::ClientConnection(TcpConnection* tcp_conn, unsigned int id){
+    _tcp_conn = tcp_conn;
+    _id = id;
+}
+
 void ClientConnection::update(uint64_t send_time){
     _last_send = send_time;
 }

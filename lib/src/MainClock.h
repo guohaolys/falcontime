@@ -36,7 +36,7 @@ namespace FalconTime{
 
         boost::posix_time::ptime utc_time();
         uint64_t nanoseconds() {return _local_clock->nanoseconds();}
-        boost::posix_time::ptime start_time_utc();
+        boost::posix_time::ptime start_time_utc() {return _start_time;}
     private:
         FalconTime::HighprefClock* _local_clock;
         boost::posix_time::ptime _start_time;

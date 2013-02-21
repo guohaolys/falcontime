@@ -30,7 +30,7 @@ UdpConnection::UdpConnection(unsigned short port, RealtimeSorter* sorter){
     _rcv_buf = new unsigned char[_max_buf_size];
 
     _server = true;
-    _socket = new udp::socket(_io_service, udp::v4(), port);
+    _socket = new udp::socket(_io_service, udp::endpoint(udp::v4(), port));
 
     this->start_receive();
 

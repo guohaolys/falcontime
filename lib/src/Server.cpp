@@ -89,9 +89,8 @@ void Server::handle_accept(boost::asio::ip::tcp::socket* socket, const boost::sy
         m.message_size = 112;
         m.client_id = id;
         std::string ts = boost::posix_time::to_simple_string(_clock->start_time_utc());
-        if(ts.length() < 100){
-            memcpy(&m.time_string, ts.c_str(), ts.length());
-            m.time_string[ts.length()] = '/0';
+        if(ts.size() < 100){
+            memcpy(&m.time_string, ts.c_str(), ts.size()+1);
         }
 
         tc->send(&m, m.message_size);
