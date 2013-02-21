@@ -24,6 +24,7 @@ This file is part of Falcon Time.
 
 #include "base_messages.h"
 #include <boost/cstdint.hpp>
+#include <boost/thread/thread.hpp>
 
 namespace FalconTime{
     enum UPDATE_ALGORITHM{
@@ -37,15 +38,17 @@ namespace FalconTime{
     class NetworkSyncer{
     public:
         NetworkSyncer(Offset* offset, MainClock* local_clock, LibraryConnection* conn);
+        ~NetworkSyncer();
         
         // Creates a thread that will sync automaically (default every 1s)
-        void enable_auto_sync(uint64_t wait_ns = 1000000000); 
+        void enable_auto_sync(uint64_t wait_ms = 1000); 
         void sync();
         void process_response(time_response_message m);
 
         void process_algorithm_update(offset_update_algorithm m);
 
     private:
+        void sync_thread_loop();
         Offset* _offset;
         MainClock* _local_clock;
         LibraryConnection* _conn;
@@ -53,6 +56,12 @@ namespace FalconTime{
         unsigned int _ignore_below;
         unsigned int _rate;
         uint64_t _send_time;
+
+        bool _auto_sync_running;
+        uint64_t _auto_sync_wait_ms;
+
+        boost::thread* _sync_thread;
+
     };
 };
 

@@ -24,15 +24,35 @@ This file is part of Falcon Time.
 #include "MainClock.h"
 #include "Offset.h"
 #include "LibraryConnection.h"
+#include <boost/bind.hpp>
+#include <boost/thread/thread.hpp>
 
 using namespace FalconTime;
 
 NetworkSyncer::NetworkSyncer(Offset* offset, MainClock* local_clock, LibraryConnection* conn){
+    _auto_sync_running = 0;
     _offset = offset;
     _local_clock = local_clock;
     _conn = conn;
     _update_algorithm = RAW_VALUE;
     _ignore_below = 10000000; //10ms
+}
+
+NetworkSyncer::~NetworkSyncer(){
+    _auto_sync_running = false;
+}
+
+void NetworkSyncer::enable_auto_sync(uint64_t wait_ms){
+    _auto_sync_wait_ms = wait_ms;
+    _sync_thread = new boost::thread(boost::bind(&NetworkSyncer::sync_thread_loop, this));
+}
+
+void NetworkSyncer::sync_thread_loop(){
+    _auto_sync_running = true;
+    while(_auto_sync_running){
+        this->sync();
+        boost::this_thread::sleep_for(boost::chrono::milliseconds(_auto_sync_wait_ms));
+    }
 }
 
 void NetworkSyncer::sync(){

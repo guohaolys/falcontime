@@ -15,6 +15,7 @@ Version 2 requirements:
 - Doxygen documentation
 - Automated Unit Tests
 - Automated Subsystem Tests
+- Logging
 
 Future:
 -Automated System Tests

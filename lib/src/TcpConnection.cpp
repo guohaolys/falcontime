@@ -66,11 +66,15 @@ void TcpConnection::start_receive(){
         boost::asio::placeholders::bytes_transferred));
 }
 void TcpConnection::receive(const boost::system::error_code& error, std::size_t bytes){
-    assert(bytes == _msg_header_size);
-    size_t remaining = *_message_size - _msg_header_size;
-    boost::asio::read(*_socket, boost::asio::buffer(_rcv_buf + _msg_header_size,
-        _max_buf_size - _msg_header_size));
-    _sorter->receive(_rcv_buf, *_message_size);
+    if(!error){
+        assert(bytes == _msg_header_size);
+        size_t remaining = *_message_size - _msg_header_size;
+        if(*_message_size < _max_buf_size){
+            boost::asio::read(*_socket, boost::asio::buffer(_rcv_buf + _msg_header_size,
+                remaining));
+        }
+        _sorter->receive(_rcv_buf, *_message_size);
+    }
 
     this->start_receive();
 }

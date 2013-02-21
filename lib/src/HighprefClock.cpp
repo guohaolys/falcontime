@@ -30,7 +30,7 @@ This file is part of Falcon Time.
 using namespace FalconTime;
 
 uint64_t highpref_time_to_nanoseconds(highpref_time t){
-    return (t.seconds * NSEC_PER_SEC) + t.nanoseconds;
+    return (static_cast<uint64_t>(t.seconds) * NSEC_PER_SEC) + static_cast<uint64_t>(t.nanoseconds);
 }
 highpref_time nanoseconds_to_highpref_time(uint64_t ns){
     highpref_time t;

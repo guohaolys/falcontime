@@ -80,10 +80,12 @@ int falcon_main(int argc, char* argv[])
 
             while(true){
                 local_ns = c->nanoseconds();
-                test_ns = highpref_time_to_nanoseconds(get_time());
+                highpref_time t = get_time();
+                test_ns = highpref_time_to_nanoseconds(t);
                 int64_t diff_ns = local_ns - test_ns;
-                std::cout << "difference at step " << step << ": " << diff_ns << std::endl;
-                boost::this_thread::sleep_for(boost::chrono::milliseconds(10000));
+                std::cout << "at step " << step << " local: " << local_ns << " test: " << test_ns << " difference: " << diff_ns << std::endl;
+                step++;
+                boost::this_thread::sleep_for(boost::chrono::milliseconds(3000));
             }
         }
     }

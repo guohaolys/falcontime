@@ -48,7 +48,7 @@ void HousekeepingSorter::receive(void* buffer, size_t buffer_length){
     }
 }
 void HousekeepingSorter::activate(unsigned char* buffer, unsigned int buffer_length){
-    assert(buffer_length == 108);
+    assert(buffer_length == 112);
     activate_message* m = reinterpret_cast<activate_message*>(buffer);
     BOOST_FOREACH(boost::function<void (activate_message)> handler, _activate_handlers){
         handler(*m);
