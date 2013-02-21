@@ -68,6 +68,8 @@ LibraryConnection::LibraryConnection(SyncedClock* clock,
     while(!_activated){
         boost::this_thread::sleep(timeout);
     }
+
+    _network_syncer->enable_auto_sync();
 }
 
 void LibraryConnection::process_activate_message(activate_message m){

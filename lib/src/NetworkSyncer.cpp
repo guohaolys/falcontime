@@ -81,8 +81,8 @@ void NetworkSyncer::process_response(time_response_message m){
     default:
        difference = local_ns - remote_ns;    
     }
-    if(difference > _ignore_below){
-        _offset->set_offset(local_ns - remote_ns);
+    if((difference > _ignore_below) || (difference < (_ignore_below * -1))){
+        _offset->set_offset(difference);
     }
 }
 
