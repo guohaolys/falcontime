@@ -53,7 +53,7 @@ namespace FalconTime{
         MainClock* _local_clock;
         LibraryConnection* _conn;
         UPDATE_ALGORITHM _update_algorithm;
-        unsigned int _ignore_below;
+        int64_t _ignore_below;
         unsigned int _rate;
         uint64_t _send_time;
 

@@ -26,6 +26,7 @@ This file is part of Falcon Time.
 #include "LibraryConnection.h"
 #include <boost/bind.hpp>
 #include <boost/thread/thread.hpp>
+#include <stdlib.h>
 
 using namespace FalconTime;
 
@@ -35,7 +36,7 @@ NetworkSyncer::NetworkSyncer(Offset* offset, MainClock* local_clock, LibraryConn
     _local_clock = local_clock;
     _conn = conn;
     _update_algorithm = RAW_VALUE;
-    _ignore_below = 10000000; //10ms
+    _ignore_below = 10000000; //10ms //TODO ????
 }
 
 NetworkSyncer::~NetworkSyncer(){
@@ -81,8 +82,10 @@ void NetworkSyncer::process_response(time_response_message m){
     default:
        difference = local_ns - remote_ns;    
     }
-    if((difference > _ignore_below) || (difference < (_ignore_below * -1))){
+    int64_t current_difference = difference - _offset->get_offset();
+    if((current_difference > _ignore_below) || (current_difference < (_ignore_below * -1))){
         _offset->set_offset(difference);
+        //std::cout << "Updating offset, difference: " << difference << std::endl;
     }
 }
 
