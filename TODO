@@ -1,16 +1,3 @@
-Version 1 requirements:
-
-Daemon Application
-- Configuration Options
-
-Client Library
-- C API
-- Basic clocks
-- TCP Data Server
-- UDP Quick Response
-- Client Demo Application (switch on the server app)
-- Windows Visual Studio Project
-
 Version 2 requirements:
 - Half round-trip update algorithm
 - Doxygen documentation

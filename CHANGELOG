@@ -1,0 +1,14 @@
+===== Version 1.0 =====
+
+Daemon Application
+- Configuration Options
+- Client Demo Application built in, accessible with a switch
+
+Client Library
+- C API
+- Basic clocks
+- TCP Data Server
+- UDP Quick Response
+
+General
+- Windows Visual Studio Project
