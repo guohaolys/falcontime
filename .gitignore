@@ -11,4 +11,4 @@ visual_studio_sln/api_library/Debug/*
 visual_studio_sln/api_library/Release/*
 visual_studio_sln/daemon/Debug/*
 visual_studio_sln/daemon/Release/*
-
+visual_studio_sln/daemon/daemon.vcxproj.user
