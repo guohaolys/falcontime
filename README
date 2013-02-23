@@ -1,6 +1,6 @@
 Falcon Time - High Performance LAN Time Synchronization
 
-Falcon Time consists of three parts, a time server that will provide the base time for the network, a time client which is an appliaction running on each computer that will run applications needing synchronization, and an application library that is linked in to each application wishing to use the synchronized time from the time client.
+Falcon Time consists of two parts, a time server that will provide the base time for the network and an application library that is linked in to each application wishing to use the synchronized time from the time client.
 
 Synchronization Performance
 The performance of Falcon Time depends entirely on the performance of your LAN. Assuming that you are using computers that aren't running at 100% CPU utilization for the client and server and there are no full network buffers between the client and server (bufferbloat is bad!), you should see minimum synchronization accuracy approximately equal to the ping time between the two machinesi (this can often be <1ms). After the network connection has been characterized it could even be substanitally less than that.
