@@ -55,6 +55,6 @@ uint64_t HighprefClock::local_nanoseconds(){
     timespec tp;
     //clock_gettime(CLOCK_REALTIME, &tp);
     clock_gettime(CLOCK_MONOTONIC, &tp);
-    return static_cast<uint64_t>((tp.tv_sec * NSEC_PER_SEC) + tp.tv_nsec);
+    return (static_cast<uint64_t>(tp.tv_sec) * NSEC_PER_SEC) + static_cast<uint64_t>(tp.tv_nsec);
 #endif
 }

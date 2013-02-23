@@ -64,7 +64,7 @@ Server::~Server(){
 
 void Server::process_time_request(time_request_message m, boost::asio::ip::udp::endpoint from){
     time_response_message r;
-    r.message_id = 2;
+    r.message_id = TIME_MESSAGE_RESPONSE_ID;
     r.client_id = m.client_id;
     uint64_t ns = _clock->nanoseconds();
     highpref_time t = nanoseconds_to_highpref_time(ns);
@@ -92,8 +92,8 @@ void Server::handle_accept(boost::asio::ip::tcp::socket* socket, const boost::sy
         _client_list[id] = cc;
 
         activate_message m;
-        m.message_id = 51;
-        m.message_size = 112;
+        m.message_id = ACTIVATE_MESSAGE_ID;
+        m.message_size = ACTIVATE_MESSAGE_SIZE;
         m.client_id = id;
         std::string ts = boost::posix_time::to_simple_string(_clock->start_time_utc());
         if(ts.size() < 100){

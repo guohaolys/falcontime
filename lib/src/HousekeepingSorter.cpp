@@ -34,13 +34,13 @@ void HousekeepingSorter::receive(void* buffer, size_t buffer_length){
     unsigned int message_id = int_buffer[1];
 
     switch(message_id){
-    case 51:
+    case ACTIVATE_MESSAGE_ID:
         this->activate(char_buffer, buffer_length);
         break;
-    case 52:
+    case TIMEZONE_OFFSET_ID:
         this->timezone(char_buffer, buffer_length);
         break;
-    case 53:
+    case OFFSET_UPDATE_ALGORITHM_ID:
         this->offset_algorithm(char_buffer, buffer_length);
         break;
     default:
@@ -48,21 +48,21 @@ void HousekeepingSorter::receive(void* buffer, size_t buffer_length){
     }
 }
 void HousekeepingSorter::activate(unsigned char* buffer, unsigned int buffer_length){
-    assert(buffer_length == 112);
+    assert(buffer_length == ACTIVATE_MESSAGE_SIZE);
     activate_message* m = reinterpret_cast<activate_message*>(buffer);
     BOOST_FOREACH(boost::function<void (activate_message)> handler, _activate_handlers){
         handler(*m);
     }
 }
 void HousekeepingSorter::timezone(unsigned char* buffer, unsigned int buffer_length){
-    assert(buffer_length == 12);
+    assert(buffer_length == TIMEZONE_OFFSET_SIZE);
     timezone_offset* m = reinterpret_cast<timezone_offset*>(buffer);
     BOOST_FOREACH(boost::function<void (timezone_offset)> handler, _timezone_handlers){
         handler(*m);
     }
 }
 void HousekeepingSorter::offset_algorithm(unsigned char* buffer, unsigned int buffer_length){
-    assert(buffer_length == 116);
+    assert(buffer_length == OFFSET_UPDATE_ALGORITHM_SIZE);
     offset_update_algorithm* m = reinterpret_cast<offset_update_algorithm*>(buffer);
     BOOST_FOREACH(boost::function<void (offset_update_algorithm)> handler, _offset_algorithm_handlers){
         handler(*m);

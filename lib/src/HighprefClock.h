@@ -32,9 +32,14 @@ highpref_time nanoseconds_to_highpref_time(uint64_t ns);
 
 namespace FalconTime{
 
+    //! Keeps track of nanoseconds since start
+
+    //! This class uses the performance counter on windows, which should provide
+    //! monotonic time. On POSIX systems it uses the CLOCK_MONOTONIC.
     class HighprefClock{
     public:
         HighprefClock();
+        //! Number of monotonic nanoseconds since start
         uint64_t nanoseconds(){
             return local_nanoseconds() - _local_start_offset;
         }

@@ -23,10 +23,15 @@ This file is part of Falcon Time.
 #define _base_messages_h_
 
 #define TIME_MESSAGE_REQUEST_ID 1
+#define TIME_MESSAGE_REQUEST_SIZE 8
 #define TIME_MESSAGE_RESPONSE_ID 2
+#define TIME_MESSAGE_RESPONSE_SIZE 16
 #define ACTIVATE_MESSAGE_ID 51
+#define ACTIVATE_MESSAGE_SIZE 112
 #define TIMEZONE_OFFSET_ID 52
+#define TIMEZONE_OFFSET_SIZE 12
 #define OFFSET_UPDATE_ALGORITHM_ID 53
+#define OFFSET_UPDATE_ALGORITHM_SIZE 116
 
 struct time_request_message{
     unsigned int message_id; /* 1 */

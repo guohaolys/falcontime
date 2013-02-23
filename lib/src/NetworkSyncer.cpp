@@ -58,7 +58,7 @@ void NetworkSyncer::sync_thread_loop(){
 
 void NetworkSyncer::sync(){
     time_request_message* m = new time_request_message();
-    m->message_id = 1;
+    m->message_id = TIME_MESSAGE_REQUEST_ID;
     m->client_id = _conn->get_client_id();
     _conn->send_udp(m, 8);
     _send_time = _local_clock->nanoseconds();
