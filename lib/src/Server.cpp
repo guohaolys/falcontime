@@ -30,9 +30,13 @@ This file is part of Falcon Time.
 
 using namespace FalconTime;
 
+// The _acceptor is started at instantiation and allows for new TCP connections to 
+// be accepted on that port, once the async_accept is registered.
 Server::Server(unsigned short port)
     : _acceptor(_tcp_service, boost::asio::ip::tcp::endpoint(
     boost::asio::ip::tcp::v4(), port)){
+    // It might be better (more secure too?) if we made the IDs somehow random, but for
+    // now we just start here and count up.
     _last_id = 1000;
     _clock = new MainClock();
 
@@ -51,6 +55,7 @@ Server::Server(unsigned short port)
 
 Server::~Server(){
     delete _io_thread;
+    //TODO: remove clients from _client_list
     delete _realtime;
     delete _housekeeping;
     delete _udp_conn;
@@ -66,6 +71,8 @@ void Server::process_time_request(time_request_message m, boost::asio::ip::udp::
     r.seconds = t.seconds;
     r.nanoseconds = t.nanoseconds;
 
+    //TODO/Question - does this happen in the same thread? Should we seperate the 
+    // sender/receiver threads for better response (don't wait for the update below)?
     _udp_conn->send(&r, sizeof(time_response_message), from);
 
     _client_list[m.client_id]->update(ns);
@@ -90,7 +97,7 @@ void Server::handle_accept(boost::asio::ip::tcp::socket* socket, const boost::sy
         m.client_id = id;
         std::string ts = boost::posix_time::to_simple_string(_clock->start_time_utc());
         if(ts.size() < 100){
-            memcpy(&m.time_string, ts.c_str(), ts.size()+1);
+            memcpy(&m.time_string, ts.c_str(), ts.size()+1); // Get the /0 at the end of the string
         }
 
         tc->send(&m, m.message_size);

@@ -30,6 +30,7 @@ UdpConnection::UdpConnection(unsigned short port, RealtimeSorter* sorter){
     _rcv_buf = new unsigned char[_max_buf_size];
 
     _server = true;
+    // Listens on this port for any connections
     _socket = new udp::socket(_io_service, udp::endpoint(udp::v4(), port));
 
     this->start_receive();
@@ -45,6 +46,7 @@ UdpConnection::UdpConnection(std::string host, unsigned short port, RealtimeSort
     _socket = new udp::socket(_io_service, udp::v4());
     _host = udp::endpoint(address_v4::from_string(host), port);
 
+    // Will only send/receive to the server
     _socket->connect(_host);
     this->start_receive();
 
@@ -64,6 +66,7 @@ void UdpConnection::start_receive(){
 void UdpConnection::receive(const boost::system::error_code& error, std::size_t bytes){
     _sorter->receive(_rcv_buf, bytes, _received_from);
 
+    // Keep the io service busy with another async_read (this is mandatory)
     this->start_receive();
 }
 void UdpConnection::send(void* buffer, size_t size){

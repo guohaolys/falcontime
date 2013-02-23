@@ -30,13 +30,17 @@ using namespace boost::asio::ip;
 TcpConnection::TcpConnection(std::string host, unsigned short port, HousekeepingSorter* sorter){
     _sorter = sorter;
     _rcv_buf = new unsigned char[_max_buf_size];
-    _message_size = reinterpret_cast<unsigned int*>(_rcv_buf);
+    // _message_size will always point to what the packet says its size will be
+    _message_size = reinterpret_cast<unsigned int*>(_rcv_buf); 
+    // _message_id will always point to what the packet says its id will be 
+    // (after it is actually received and in the buffer)
     _message_id = reinterpret_cast<unsigned int*>(_rcv_buf + 4);
 
     _server = false;
     _socket = new tcp::socket(_io_service, tcp::v4());
     _host = tcp::endpoint(address_v4::from_string(host), port);
 
+    // Opens a new connection
     _socket->connect(_host);
     this->start_receive();
 
@@ -48,7 +52,7 @@ TcpConnection::TcpConnection(boost::asio::ip::tcp::socket* socket, HousekeepingS
     _message_size = reinterpret_cast<unsigned int*>(_rcv_buf);
     _message_id = reinterpret_cast<unsigned int*>(_rcv_buf + 4);
 
-    _server = false;
+    _server = true;
     _socket = socket;
     this->start_receive();
 }
@@ -67,15 +71,18 @@ void TcpConnection::start_receive(){
 }
 void TcpConnection::receive(const boost::system::error_code& error, std::size_t bytes){
     if(!error){
-        assert(bytes == _msg_header_size);
-        size_t remaining = *_message_size - _msg_header_size;
+        assert(bytes == _msg_header_size); // This is all the space we made available in start_receive
+        size_t remaining = *_message_size - _msg_header_size; 
         if(*_message_size < _max_buf_size){
+            // read the 'remaining' bytes
             boost::asio::read(*_socket, boost::asio::buffer(_rcv_buf + _msg_header_size,
                 remaining));
         }
+        // process this message
         _sorter->receive(_rcv_buf, *_message_size);
     }
 
+    // Keep the io service busy with another async_read (this is mandatory)
     this->start_receive();
 }
 void TcpConnection::send(void* buffer, size_t size){

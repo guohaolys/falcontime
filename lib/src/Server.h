@@ -33,25 +33,42 @@ namespace FalconTime{
     class RealtimeSorter;
     class HousekeepingSorter;
 
+    //! Root of the server process
+
+    //! This will listen for incoming TCP connections (indicating a new client) then 
+    //! setup that client allowing for the UdpConnection to receive the time requests.
     class Server{
     public:
         Server(unsigned short port=10320);
         ~Server();
 
+        // Callback to be registered with RealtimeSorter to handle the requests
         void process_time_request(time_request_message m, boost::asio::ip::udp::endpoint from);
     private:
+        // Generates the async_accept call for new TCP connections
         void start_accept();
+        // When a new TCP connection has been initiated, this sets it up as a 
+        // ClientConnection/TcpConnection and sends back the activate_message.
         void handle_accept(boost::asio::ip::tcp::socket* socket, const boost::system::error_code& ec);
 
+        // For making new IDs
         unsigned int get_next_id();
         unsigned int _last_id;
 
+        // All clients that have ever connected
         boost::unordered_map<unsigned int, ClientConnection*> _client_list;
+
+        // Just a clock that keeps track of when started and how much time has passed
         MainClock* _clock;
+
+        // Listens for incoming UDP messages
         UdpConnection* _udp_conn;
+        // Sorts the high-performance UDP messages
         RealtimeSorter* _realtime;
+        // Sorts the lower-performance TCP messages
         HousekeepingSorter* _housekeeping;
 
+        // Thread and services in the server.
         boost::thread* _io_thread;
         boost::asio::io_service _tcp_service;
         boost::asio::ip::tcp::acceptor _acceptor;

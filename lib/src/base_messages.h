@@ -24,9 +24,9 @@ This file is part of Falcon Time.
 
 #define TIME_MESSAGE_REQUEST_ID 1
 #define TIME_MESSAGE_RESPONSE_ID 2
-#define STARTUP_MESSAGE_ID 50
 #define ACTIVATE_MESSAGE_ID 51
 #define TIMEZONE_OFFSET_ID 52
+#define OFFSET_UPDATE_ALGORITHM_ID 53
 
 struct time_request_message{
     unsigned int message_id; /* 1 */

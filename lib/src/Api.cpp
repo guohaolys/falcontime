@@ -52,7 +52,7 @@ void get_start(char* start){
 #endif
 */
     std::string s = api->start();
-    memcpy(start, s.c_str(), s.size()+1); //TODO Verify with debugger that this is correct!
+    memcpy(start, s.c_str(), s.size()+1); // Convert to char* in user memory
     return;
 }
 highpref_time get_time(){

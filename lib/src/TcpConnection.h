@@ -29,16 +29,24 @@ This file is part of Falcon Time.
 
 namespace FalconTime{
     class HousekeepingSorter;
+    //! A TcpConnection for the low-priority messages
     class TcpConnection{
     public:
+        // Use this for server connections that have already been accepted
         TcpConnection(boost::asio::ip::tcp::socket* socket, HousekeepingSorter* sorter);
+        // Use this for client connections that need to establish a connection to the server
         TcpConnection(std::string host, unsigned short port, HousekeepingSorter* sorter);
         ~TcpConnection();
 
+        //! Send a message to the server
         void send(void* message, std::size_t size);
     private:
+        // Handles the messages after they are successfully received
         HousekeepingSorter* _sorter;
+        // Call this after every reply from the async messages, if the _io_service doesn't
+        // have one of these it will stop working
         void start_receive();
+        // Callback to be registered with the socket
         void receive(const boost::system::error_code& error, std::size_t bytes);
 
         boost::thread* _io_thread;

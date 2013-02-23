@@ -27,13 +27,16 @@ This file is part of Falcon Time.
 #include "HighprefClock.h"
 
 namespace FalconTime{
+    //! This is the behind-the-scenes C++ API used in the client.
     class Api{
     public:
         Api();
         Api(std::string server_address, unsigned short server_port = 10320);
         ~Api();
 
+        //! A string with the starting time in the format YYYY-mmm-DD HH:MM:SS.ffffffffff
         std::string start();
+        //! Number of seconds and nanoseconds since start
         highpref_time elapsed();
     private:
         SyncedClock* _clock;

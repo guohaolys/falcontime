@@ -29,19 +29,24 @@ This file is part of Falcon Time.
 
 namespace FalconTime{
     class RealtimeSorter;
+    //! Establishes UDP connections for the high-priority messages
     class UdpConnection{
     public:
-        // Use in the server
+        // Use in the server, listens for all clients
         UdpConnection(unsigned short port, RealtimeSorter* sorter);
-        // Use in the client
+        // Use in the client for talking to the server
         UdpConnection(std::string host, unsigned short port, RealtimeSorter* sorter);
         ~UdpConnection();
 
         void send(void* message, std::size_t size);
         void send(void* message, std::size_t size, boost::asio::ip::udp::endpoint to);
     private:
+        // Handles the messages after they are successfully received
         RealtimeSorter* _sorter;
+        // Call this after every reply from the async messages, if the _io_service doesn't
+        // have one of these it will stop working
         void start_receive();
+        // Callback to be registered with the socket
         void receive(const boost::system::error_code& error, std::size_t bytes);
 
         boost::thread* _io_thread;
@@ -50,7 +55,7 @@ namespace FalconTime{
         boost::asio::ip::udp::endpoint _host;
         boost::asio::ip::udp::socket* _socket;
         boost::asio::ip::udp::endpoint _received_from;
-        static const size_t _max_buf_size = 4096;
+        static const size_t _max_buf_size = 4096; //4KB
         unsigned char* _rcv_buf;
     };
 };
