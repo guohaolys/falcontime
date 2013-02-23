@@ -26,11 +26,13 @@ This file is part of Falcon Time.
 
 namespace FalconTime{
     class TcpConnection;
+    //! Is used to store the TcpConnection and id for this connection to a client
     class ClientConnection{
     public:
         ClientConnection(TcpConnection* tcp_conn, unsigned int id);
 
         unsigned int get_id(){return _id;}
+        // Each time a client checks in we update its last sent time
         void update(uint64_t send_time);
     private:
         unsigned int _id;

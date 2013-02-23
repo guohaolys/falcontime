@@ -28,17 +28,22 @@ This file is part of Falcon Time.
 #include <list>
 
 namespace FalconTime{
-
+    //! Sorts messages that come over the low-latency UDP connection
     class RealtimeSorter{
     public:
+        // Register this callback with the UDP connection
         void receive(void* buffer, size_t buffer_length, boost::asio::ip::udp::endpoint from);
     
+        //! Register a callback to be called when a time_request message comes in
         void time_request_handler(boost::function<void (time_request_message, boost::asio::ip::udp::endpoint)> handler);
+        //! Register a callback to be called when a time_response message comes in
         void time_response_handler(boost::function<void (time_response_message)> handler);
     private:
+        // These are where the processing happens
         void request(unsigned char* buffer, unsigned int buffer_length, boost::asio::ip::udp::endpoint from);
         void response(unsigned char* buffer, unsigned int buffer_length);
 
+        // Lists of the callbacks that need to be called for each message
         std::list<boost::function<void (time_request_message, boost::asio::ip::udp::endpoint)> > _request_handlers;
         std::list<boost::function<void (time_response_message)> > _response_handlers;
     };

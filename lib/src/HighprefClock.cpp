@@ -48,7 +48,7 @@ uint64_t HighprefClock::local_nanoseconds(){
     LARGE_INTEGER measurement;
 
     QueryPerformanceCounter(&measurement);
-    QueryPerformanceFrequency(&frequency);
+    QueryPerformanceFrequency(&frequency); //TODO move this to a static variable so we don't need to wait to look it up each time
 
     return (measurement.QuadPart * 1000000000) / frequency.QuadPart;
 #else
