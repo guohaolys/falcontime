@@ -33,6 +33,9 @@ namespace FalconTime{
         SyncedClock();
         ~SyncedClock();
 
+        //! Number of nanoseconds since start, including updates from remote 
+        
+        //! Depending on update algorithm, this could be monotonic
         uint64_t nanoseconds();
 
         Offset* get_offset(){return _offset;}

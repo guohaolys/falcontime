@@ -52,6 +52,7 @@ void NetworkSyncer::sync_thread_loop(){
     _auto_sync_running = true;
     while(_auto_sync_running){
         this->sync();
+        // This might not be accurate down to the millisecond on windows but that shouldn't matter
         boost::this_thread::sleep_for(boost::chrono::milliseconds(_auto_sync_wait_ms));
     }
 }
@@ -74,7 +75,7 @@ void NetworkSyncer::process_response(time_response_message m){
     uint64_t remote_ns = highpref_time_to_nanoseconds(remote_time);
     
     int64_t difference;
-    // TODO: Add different algorithms to update here
+    // TODO: Add different algorithms to update here, may need serious re-structuring
     switch(_update_algorithm){
     case HALF_ROUND_TRIP:
         break;
@@ -82,7 +83,9 @@ void NetworkSyncer::process_response(time_response_message m){
     default:
        difference = local_ns - remote_ns;    
     }
+    // How far off is the difference when you include the offset?
     int64_t current_difference = difference - _offset->get_offset();
+    // If its really close, don't do anything.
     if((current_difference > _ignore_below) || (current_difference < (_ignore_below * -1))){
         _offset->set_offset(difference);
         //std::cout << "Updating offset, difference: " << difference << std::endl;

@@ -35,19 +35,25 @@ namespace FalconTime{
     class MainClock;
     class LibraryConnection;
 
+    //! Controls time synchronization with a remote server
     class NetworkSyncer{
     public:
         NetworkSyncer(Offset* offset, MainClock* local_clock, LibraryConnection* conn);
         ~NetworkSyncer();
         
-        // Creates a thread that will sync automaically (default every 1s)
-        void enable_auto_sync(uint64_t wait_ms = 1000); 
+        //! Creates a thread that will sync automaically (default every 1s)
+        //! \param wait_ms is the time to wait between syncs, you shouldn't need to 
+        //! do it very often, once every few seconds should be more than enough.
+        void enable_auto_sync(uint64_t wait_ms = 10000); 
+        //! Manually sync a thread (Don't do this if you have enabled auto sync)
         void sync();
-        void process_response(time_response_message m);
 
+        // Callbacks registered with RealtimeSorter and HousekeepingSorter
+        void process_response(time_response_message m);
         void process_algorithm_update(offset_update_algorithm m);
 
     private:
+        // Initiated in a new thread, loops until not _auto_sync_running.
         void sync_thread_loop();
         Offset* _offset;
         MainClock* _local_clock;

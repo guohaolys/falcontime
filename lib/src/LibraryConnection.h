@@ -34,6 +34,7 @@ namespace FalconTime{
     class TcpConnection;
     class UdpConnection;
 
+    //! Creates a connection from the client library to the server
     class LibraryConnection{
     public:
         LibraryConnection(SyncedClock* clock);
@@ -46,6 +47,7 @@ namespace FalconTime{
         void send_udp(void* msg, std::size_t size);
         void send_tcp(void* msg, std::size_t size);
         
+        // Callback to be registered for the activate message
         void process_activate_message(activate_message m);
     private:
         Offset* _offset;

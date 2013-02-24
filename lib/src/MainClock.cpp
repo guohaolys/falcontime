@@ -39,6 +39,6 @@ boost::posix_time::ptime MainClock::utc_time(){
     using namespace boost::posix_time;
 
     highpref_time elapsed = nanoseconds_to_highpref_time(this->nanoseconds());
-    time_duration td = seconds(elapsed.seconds) + boost::posix_time::nanoseconds(elapsed.nanoseconds);
-    return _start_time + td;
+    time_duration elapsed_duration = seconds(elapsed.seconds) + boost::posix_time::nanoseconds(elapsed.nanoseconds);
+    return _start_time + elapsed_duration;
 }

@@ -29,13 +29,17 @@ This file is part of Falcon Time.
 #include <boost/cstdint.hpp>
 
 namespace FalconTime{
+    //! A basic clock that works with the HighprefClock to add on utc.
     class MainClock{
     public:
         MainClock();
         ~MainClock();
 
+        //! Current time in UTC
         boost::posix_time::ptime utc_time();
+        //! Nanoseconds since started
         uint64_t nanoseconds() {return _local_clock->nanoseconds();}
+        //! Time started in UTC
         boost::posix_time::ptime start_time_utc() {return _start_time;}
     private:
         FalconTime::HighprefClock* _local_clock;

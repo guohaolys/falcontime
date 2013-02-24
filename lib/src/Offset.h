@@ -26,22 +26,25 @@ This file is part of Falcon Time.
 #include <string>
 
 namespace FalconTime{
+    //! Keeps track of how the local clock needs to be updated to match the remote clock
     class Offset{
     public:
         Offset();
         ~Offset();
 
+        //! Number of nanoseconds the local clock is off from the main clock
+        
+        //! If the remote clock is 100 and the local clock is 90, this is -10.
+        //! If the local clock is 120, this value is +20.
         int64_t get_offset();
+        
+        //! This is the start of the main clock, nothing local.
         std::string get_start();
 
         void set_offset(int64_t value);
         void set_start(std::string);
     private:
-        // Number of nanoseconds the local clock is off from the main clock
-        // If the remote clock is 100 and the local clock is 90, this is -10.
-        // If the local clock is 120, this value is +20.
         int64_t _offset; 
-        // This is the start of the main clock, nothing local.
         std::string _start; 
     };
 };

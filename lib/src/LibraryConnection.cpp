@@ -51,7 +51,7 @@ LibraryConnection::LibraryConnection(SyncedClock* clock,
 
     _realtime = new RealtimeSorter();
     _realtime->time_response_handler(boost::bind(
-        &NetworkSyncer::process_response, _network_syncer, _1));
+        &NetworkSyncer::process_response, _network_syncer, _1)); // _1 signifies the 1st paramater to be passed
 
     _housekeeping = new HousekeepingSorter();
     _housekeeping->offset_update_algorithm_handler(boost::bind(
